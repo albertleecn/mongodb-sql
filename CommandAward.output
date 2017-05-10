@@ -1,0 +1,274 @@
+// Output created by jacc on Wed May 10 15:00:21 CST 2017
+
+state 0 (entry on prog)
+    $accept : _prog $end
+
+    IDENTIFIER shift 3
+    . error
+
+    prog goto 1
+    command goto 2
+
+state 1 (entry on prog)
+    $accept : prog_$end
+
+    $end accept
+    . error
+
+state 2 (entry on command)
+    prog : command_WHITESPACE rulename white matchCondition awardflow end    (1)
+
+    WHITESPACE shift 4
+    . error
+
+state 3 (entry on IDENTIFIER)
+    command : IDENTIFIER_    (7)
+
+    WHITESPACE reduce 7
+    . error
+
+state 4 (entry on WHITESPACE)
+    prog : command WHITESPACE_rulename white matchCondition awardflow end    (1)
+
+    IDENTIFIER shift 6
+    . error
+
+    rulename goto 5
+
+state 5 (entry on rulename)
+    prog : command WHITESPACE rulename_white matchCondition awardflow end    (1)
+    white : _    (6)
+
+    WHITESPACE shift 8
+    '(' reduce 6
+    . error
+
+    white goto 7
+
+state 6 (entry on IDENTIFIER)
+    rulename : IDENTIFIER_    (8)
+
+    WHITESPACE reduce 8
+    '(' reduce 8
+    . error
+
+state 7 (entry on white)
+    prog : command WHITESPACE rulename white_matchCondition awardflow end    (1)
+
+    '(' shift 10
+    . error
+
+    matchCondition goto 9
+
+state 8 (entry on WHITESPACE)
+    white : WHITESPACE_    (5)
+
+    ':' error
+    ')' error
+    NUM error
+    error error
+    . reduce 5
+
+state 9 (entry on matchCondition)
+    prog : command WHITESPACE rulename white matchCondition_awardflow end    (1)
+    white : _    (6)
+
+    WHITESPACE shift 8
+    IDENTIFIER reduce 6
+    . error
+
+    awardflow goto 11
+    white goto 12
+
+state 10 (entry on '(')
+    matchCondition : '('_userIds ')'    (9)
+
+    NUM shift 14
+    . error
+
+    userIds goto 13
+
+11: shift/reduce conflict (shift 17 and red'n 6) on ';'
+state 11 (entry on awardflow)
+    prog : command WHITESPACE rulename white matchCondition awardflow_end    (1)
+    awardflow : awardflow_';' white award white    (12)
+    white : _    (6)
+
+    WHITESPACE shift 8
+    ';' shift 17
+    $end reduce 6
+    . error
+
+    end goto 15
+    white goto 16
+
+state 12 (entry on white)
+    awardflow : white_award white    (13)
+
+    IDENTIFIER shift 19
+    . error
+
+    award goto 18
+
+state 13 (entry on userIds)
+    matchCondition : '(' userIds_')'    (9)
+    userIds : userIds_':' NUM    (10)
+
+    ')' shift 20
+    ':' shift 21
+    . error
+
+state 14 (entry on NUM)
+    userIds : NUM_    (11)
+
+    ':' reduce 11
+    ')' reduce 11
+    . error
+
+state 15 (entry on end)
+    prog : command WHITESPACE rulename white matchCondition awardflow end_    (1)
+
+    $end reduce 1
+    . error
+
+state 16 (entry on white)
+    end : white_    (2)
+    end : white_';'    (4)
+
+    ';' shift 22
+    $end reduce 2
+    . error
+
+state 17 (entry on ';')
+    awardflow : awardflow ';'_white award white    (12)
+    end : ';'_    (3)
+    white : _    (6)
+
+    WHITESPACE shift 8
+    $end reduce 3
+    IDENTIFIER reduce 6
+    . error
+
+    white goto 23
+
+18: shift/reduce conflict (shift 8 and red'n 6) on WHITESPACE
+state 18 (entry on award)
+    awardflow : white award_white    (13)
+    white : _    (6)
+
+    WHITESPACE shift 8
+    $end reduce 6
+    ';' reduce 6
+    . error
+
+    white goto 24
+
+state 19 (entry on IDENTIFIER)
+    award : IDENTIFIER_WHITESPACE NUM    (14)
+
+    WHITESPACE shift 25
+    . error
+
+state 20 (entry on ')')
+    matchCondition : '(' userIds ')'_    (9)
+
+    WHITESPACE reduce 9
+    IDENTIFIER reduce 9
+    . error
+
+state 21 (entry on ':')
+    userIds : userIds ':'_NUM    (10)
+
+    NUM shift 26
+    . error
+
+state 22 (entry on ';')
+    end : white ';'_    (4)
+
+    $end reduce 4
+    . error
+
+state 23 (entry on white)
+    awardflow : awardflow ';' white_award white    (12)
+
+    IDENTIFIER shift 19
+    . error
+
+    award goto 27
+
+state 24 (entry on white)
+    awardflow : white award white_    (13)
+
+    WHITESPACE reduce 13
+    $end reduce 13
+    ';' reduce 13
+    . error
+
+state 25 (entry on WHITESPACE)
+    award : IDENTIFIER WHITESPACE_NUM    (14)
+
+    NUM shift 28
+    . error
+
+state 26 (entry on NUM)
+    userIds : userIds ':' NUM_    (10)
+
+    ':' reduce 10
+    ')' reduce 10
+    . error
+
+27: shift/reduce conflict (shift 8 and red'n 6) on WHITESPACE
+state 27 (entry on award)
+    awardflow : awardflow ';' white award_white    (12)
+    white : _    (6)
+
+    WHITESPACE shift 8
+    $end reduce 6
+    ';' reduce 6
+    . error
+
+    white goto 29
+
+state 28 (entry on NUM)
+    award : IDENTIFIER WHITESPACE NUM_    (14)
+
+    WHITESPACE reduce 14
+    $end reduce 14
+    ';' reduce 14
+    . error
+
+state 29 (entry on white)
+    awardflow : awardflow ';' white award white_    (12)
+
+    WHITESPACE reduce 12
+    $end reduce 12
+    ';' reduce 12
+    . error
+
+First sets:
+ First(prog): {IDENTIFIER}
+ First(awardflow): {IDENTIFIER, WHITESPACE}
+ First(command): {IDENTIFIER}
+ First(end): {WHITESPACE, ';'}
+ First(matchCondition): {'('}
+ First(award): {IDENTIFIER}
+ First(rulename): {IDENTIFIER}
+ First(userIds): {NUM}
+ First(white): {WHITESPACE}
+
+Follow sets:
+ Follow(prog): {$end}
+ Follow(awardflow): {WHITESPACE, ';', $end}
+ Follow(command): {WHITESPACE}
+ Follow(end): {$end}
+ Follow(matchCondition): {IDENTIFIER, WHITESPACE}
+ Follow(award): {WHITESPACE, ';', $end}
+ Follow(rulename): {WHITESPACE, '('}
+ Follow(userIds): {')', ':'}
+ Follow(white): {IDENTIFIER, WHITESPACE, '(', ';', $end}
+
+Nullable = {end, white}
+
+9 terminals, 9 nonterminals;
+14 grammar rules, 30 states;
+3 shift/reduce and 0 reduce/reduce conflicts reported.
