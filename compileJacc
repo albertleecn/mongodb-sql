@@ -1,0 +1,4 @@
+#!/bin/sh
+./jacc-bin/jacc -vf ./BNF/CommandAward.jacc -e ./BNF/SyntaxErrors.errs
+cp -f ./BNF/CommandParser.java ./BNF/CommandTokens.java ./src/main/java/cn/boxfish/jack/parser/
+

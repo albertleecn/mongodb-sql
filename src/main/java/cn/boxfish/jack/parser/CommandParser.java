@@ -1,4 +1,4 @@
-// Output created by jacc on Thu May 11 16:31:24 CST 2017
+// Output created by jacc on Thu May 11 17:23:44 CST 2017
 
 package cn.boxfish.jack.parser;
 
@@ -27,16 +27,16 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 30:
+                case 31:
                     switch (yytok) {
                         case '(':
-                            yyn = yyerr(0, 63);
+                            yyn = yyerr(0, 65);
                             continue;
                         case IDENTIFIER:
                             yyn = 3;
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 1:
@@ -44,13 +44,13 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 31:
+                case 32:
                     switch (yytok) {
                         case ENDINPUT:
-                            yyn = 60;
+                            yyn = 62;
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 2:
@@ -58,13 +58,16 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 32:
+                case 33:
                     switch (yytok) {
                         case WHITESPACE:
                             yyn = 4;
                             continue;
+                        case ENDINPUT:
+                            yyn = yyr2();
+                            continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 3:
@@ -76,13 +79,14 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 33:
+                case 34:
                     switch (yytok) {
                         case WHITESPACE:
-                            yyn = yyr7();
+                        case ENDINPUT:
+                            yyn = yyr10();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 4:
@@ -94,13 +98,13 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 34:
+                case 35:
                     switch (yytok) {
                         case IDENTIFIER:
-                            yyn = 6;
+                            yyn = 7;
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 5:
@@ -108,59 +112,40 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 35:
+                case 36:
                     switch (yytok) {
-                        case ';':
-                            yyn = yyerr(1, 63);
-                            continue;
-                        case WHITESPACE:
-                            yyn = 8;
-                            continue;
-                        case '(':
-                            yyn = yyr6();
+                        case ENDINPUT:
+                            yyn = yyr1();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 6:
                     yyst[yysp] = 6;
-                    yysv[yysp] = (lexer.getSemantic()
-                                 );
-                    yytok = (lexer.nextToken()
-                            );
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 36:
-                    switch (yytok) {
-                        case WHITESPACE:
-                        case '(':
-                            yyn = yyr8();
-                            continue;
-                    }
-                    yyn = 63;
-                    continue;
-
-                case 7:
-                    yyst[yysp] = 7;
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
                 case 37:
                     switch (yytok) {
                         case ';':
-                            yyn = yyerr(1, 63);
+                            yyn = yyerr(1, 65);
+                            continue;
+                        case WHITESPACE:
+                            yyn = 9;
+                            continue;
+                        case ENDINPUT:
+                            yyn = yyr4();
                             continue;
                         case '(':
-                            yyn = 10;
+                            yyn = yyr9();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
-                case 8:
-                    yyst[yysp] = 8;
+                case 7:
+                    yyst[yysp] = 7;
                     yysv[yysp] = (lexer.getSemantic()
                                  );
                     yytok = (lexer.nextToken()
@@ -170,38 +155,34 @@ class CommandParser implements CommandTokens {
                     }
                 case 38:
                     switch (yytok) {
-                        case ':':
-                        case ')':
-                        case NUM:
-                        case error:
-                            yyn = 63;
+                        case WHITESPACE:
+                        case '(':
+                        case ENDINPUT:
+                            yyn = yyr11();
                             continue;
                     }
-                    yyn = yyr5();
+                    yyn = 65;
                     continue;
 
-                case 9:
-                    yyst[yysp] = 9;
+                case 8:
+                    yyst[yysp] = 8;
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
                 case 39:
                     switch (yytok) {
                         case ';':
-                            yyn = yyerr(2, 63);
+                            yyn = yyerr(1, 65);
                             continue;
-                        case WHITESPACE:
-                            yyn = 8;
-                            continue;
-                        case IDENTIFIER:
-                            yyn = yyr6();
+                        case '(':
+                            yyn = 11;
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
-                case 10:
-                    yyst[yysp] = 10;
+                case 9:
+                    yyst[yysp] = 9;
                     yysv[yysp] = (lexer.getSemantic()
                                  );
                     yytok = (lexer.nextToken()
@@ -211,31 +192,52 @@ class CommandParser implements CommandTokens {
                     }
                 case 40:
                     switch (yytok) {
+                        case ':':
+                        case ')':
                         case NUM:
-                            yyn = 14;
+                        case error:
+                            yyn = 65;
                             continue;
                     }
-                    yyn = 63;
+                    yyn = yyr8();
                     continue;
 
-                case 11:
-                    yyst[yysp] = 11;
+                case 10:
+                    yyst[yysp] = 10;
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
                 case 41:
                     switch (yytok) {
-                        case WHITESPACE:
-                            yyn = 8;
-                            continue;
                         case ';':
-                            yyn = 17;
+                            yyn = yyerr(2, 65);
                             continue;
-                        case ENDINPUT:
-                            yyn = yyr6();
+                        case WHITESPACE:
+                            yyn = 9;
+                            continue;
+                        case IDENTIFIER:
+                            yyn = yyr9();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
+                    continue;
+
+                case 11:
+                    yyst[yysp] = 11;
+                    yysv[yysp] = (lexer.getSemantic()
+                                 );
+                    yytok = (lexer.nextToken()
+                            );
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 42:
+                    switch (yytok) {
+                        case NUM:
+                            yyn = 15;
+                            continue;
+                    }
+                    yyn = 65;
                     continue;
 
                 case 12:
@@ -243,13 +245,19 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 42:
+                case 43:
                     switch (yytok) {
-                        case IDENTIFIER:
-                            yyn = 19;
+                        case WHITESPACE:
+                            yyn = 9;
+                            continue;
+                        case ';':
+                            yyn = 18;
+                            continue;
+                        case ENDINPUT:
+                            yyn = yyr9();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 13:
@@ -257,20 +265,34 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 43:
+                case 44:
                     switch (yytok) {
-                        case ')':
+                        case IDENTIFIER:
                             yyn = 20;
                             continue;
-                        case ':':
-                            yyn = 21;
-                            continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 14:
                     yyst[yysp] = 14;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 45:
+                    switch (yytok) {
+                        case ')':
+                            yyn = 21;
+                            continue;
+                        case ':':
+                            yyn = 22;
+                            continue;
+                    }
+                    yyn = 65;
+                    continue;
+
+                case 15:
+                    yyst[yysp] = 15;
                     yysv[yysp] = (lexer.getSemantic()
                                  );
                     yytok = (lexer.nextToken()
@@ -278,28 +300,14 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 44:
+                case 46:
                     switch (yytok) {
                         case ':':
                         case ')':
-                            yyn = yyr11();
+                            yyn = yyr14();
                             continue;
                     }
-                    yyn = 63;
-                    continue;
-
-                case 15:
-                    yyst[yysp] = 15;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 45:
-                    switch (yytok) {
-                        case ENDINPUT:
-                            yyn = yyr1();
-                            continue;
-                    }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 16:
@@ -307,62 +315,34 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 46:
+                case 47:
                     switch (yytok) {
-                        case ';':
-                            yyn = 22;
-                            continue;
                         case ENDINPUT:
-                            yyn = yyr2();
+                            yyn = yyr3();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 17:
                     yyst[yysp] = 17;
-                    yysv[yysp] = (lexer.getSemantic()
-                                 );
-                    yytok = (lexer.nextToken()
-                            );
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 47:
-                    switch (yytok) {
-                        case WHITESPACE:
-                            yyn = 8;
-                            continue;
-                        case ENDINPUT:
-                            yyn = yyr3();
-                            continue;
-                        case IDENTIFIER:
-                            yyn = yyr6();
-                            continue;
-                    }
-                    yyn = 63;
-                    continue;
-
-                case 18:
-                    yyst[yysp] = 18;
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
                 case 48:
                     switch (yytok) {
-                        case WHITESPACE:
-                            yyn = 8;
+                        case ';':
+                            yyn = 23;
                             continue;
                         case ENDINPUT:
-                        case ';':
-                            yyn = yyr6();
+                            yyn = yyr5();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
-                case 19:
-                    yyst[yysp] = 19;
+                case 18:
+                    yyst[yysp] = 18;
                     yysv[yysp] = (lexer.getSemantic()
                                  );
                     yytok = (lexer.nextToken()
@@ -373,10 +353,34 @@ class CommandParser implements CommandTokens {
                 case 49:
                     switch (yytok) {
                         case WHITESPACE:
-                            yyn = 25;
+                            yyn = 9;
+                            continue;
+                        case ENDINPUT:
+                            yyn = yyr6();
+                            continue;
+                        case IDENTIFIER:
+                            yyn = yyr9();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
+                    continue;
+
+                case 19:
+                    yyst[yysp] = 19;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 50:
+                    switch (yytok) {
+                        case WHITESPACE:
+                            yyn = 9;
+                            continue;
+                        case ENDINPUT:
+                        case ';':
+                            yyn = yyr9();
+                            continue;
+                    }
+                    yyn = 65;
                     continue;
 
                 case 20:
@@ -388,14 +392,13 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 50:
+                case 51:
                     switch (yytok) {
                         case WHITESPACE:
-                        case IDENTIFIER:
-                            yyn = yyr9();
+                            yyn = 26;
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 21:
@@ -407,13 +410,14 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 51:
+                case 52:
                     switch (yytok) {
-                        case NUM:
-                            yyn = 26;
+                        case WHITESPACE:
+                        case IDENTIFIER:
+                            yyn = yyr12();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 22:
@@ -425,47 +429,17 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 52:
+                case 53:
                     switch (yytok) {
-                        case ENDINPUT:
-                            yyn = yyr4();
+                        case NUM:
+                            yyn = 27;
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 23:
                     yyst[yysp] = 23;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 53:
-                    switch (yytok) {
-                        case IDENTIFIER:
-                            yyn = 19;
-                            continue;
-                    }
-                    yyn = 63;
-                    continue;
-
-                case 24:
-                    yyst[yysp] = 24;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 54:
-                    switch (yytok) {
-                        case WHITESPACE:
-                        case ENDINPUT:
-                        case ';':
-                            yyn = yyr13();
-                            continue;
-                    }
-                    yyn = 63;
-                    continue;
-
-                case 25:
-                    yyst[yysp] = 25;
                     yysv[yysp] = (lexer.getSemantic()
                                  );
                     yytok = (lexer.nextToken()
@@ -473,13 +447,43 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 55:
+                case 54:
                     switch (yytok) {
-                        case NUM:
-                            yyn = 28;
+                        case ENDINPUT:
+                            yyn = yyr7();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
+                    continue;
+
+                case 24:
+                    yyst[yysp] = 24;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 55:
+                    switch (yytok) {
+                        case IDENTIFIER:
+                            yyn = 20;
+                            continue;
+                    }
+                    yyn = 65;
+                    continue;
+
+                case 25:
+                    yyst[yysp] = 25;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 56:
+                    switch (yytok) {
+                        case WHITESPACE:
+                        case ENDINPUT:
+                        case ';':
+                            yyn = yyr16();
+                            continue;
+                    }
+                    yyn = 65;
                     continue;
 
                 case 26:
@@ -491,36 +495,17 @@ class CommandParser implements CommandTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 56:
+                case 57:
                     switch (yytok) {
-                        case ':':
-                        case ')':
-                            yyn = yyr10();
+                        case NUM:
+                            yyn = 29;
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
                 case 27:
                     yyst[yysp] = 27;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 57:
-                    switch (yytok) {
-                        case WHITESPACE:
-                            yyn = 8;
-                            continue;
-                        case ENDINPUT:
-                        case ';':
-                            yyn = yyr6();
-                            continue;
-                    }
-                    yyn = 63;
-                    continue;
-
-                case 28:
-                    yyst[yysp] = 28;
                     yysv[yysp] = (lexer.getSemantic()
                                  );
                     yytok = (lexer.nextToken()
@@ -530,38 +515,75 @@ class CommandParser implements CommandTokens {
                     }
                 case 58:
                     switch (yytok) {
-                        case WHITESPACE:
-                        case ENDINPUT:
-                        case ';':
-                            yyn = yyr14();
+                        case ':':
+                        case ')':
+                            yyn = yyr13();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
-                case 29:
-                    yyst[yysp] = 29;
+                case 28:
+                    yyst[yysp] = 28;
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
                 case 59:
                     switch (yytok) {
                         case WHITESPACE:
+                            yyn = 9;
+                            continue;
                         case ENDINPUT:
                         case ';':
-                            yyn = yyr12();
+                            yyn = yyr9();
                             continue;
                     }
-                    yyn = 63;
+                    yyn = 65;
                     continue;
 
+                case 29:
+                    yyst[yysp] = 29;
+                    yysv[yysp] = (lexer.getSemantic()
+                                 );
+                    yytok = (lexer.nextToken()
+                            );
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
                 case 60:
-                    return true;
+                    switch (yytok) {
+                        case WHITESPACE:
+                        case ENDINPUT:
+                        case ';':
+                            yyn = yyr17();
+                            continue;
+                    }
+                    yyn = 65;
+                    continue;
+
+                case 30:
+                    yyst[yysp] = 30;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
                 case 61:
-                    yyerror("stack overflow");
+                    switch (yytok) {
+                        case WHITESPACE:
+                        case ENDINPUT:
+                        case ';':
+                            yyn = yyr15();
+                            continue;
+                    }
+                    yyn = 65;
+                    continue;
+
                 case 62:
-                    return false;
+                    return true;
                 case 63:
+                    yyerror("stack overflow");
+                case 64:
+                    return false;
+                case 65:
                     yyerror("syntax error");
                     return false;
             }
@@ -579,93 +601,111 @@ class CommandParser implements CommandTokens {
         yysv = newyysv;
     }
 
-    private int yyr1() { // prog : command WHITESPACE rulename white matchCondition awardflow end
-        { yyrv = new Rule(yysv[yysp-7],yysv[yysp-5],yysv[yysp-3],yysv[yysp-2]); }
-        yysv[yysp-=7] = yyrv;
+    private int yyr1() { // prog : command WHITESPACE arguments
+        {yyrv = new Command(yysv[yysp-3],yysv[yysp-1]);}
+        yysv[yysp-=3] = yyrv;
         return 1;
     }
 
-    private int yyr12() { // awardflow : awardflow ';' white award white
+    private int yyr2() { // prog : command
+        {yyrv = new Command(yysv[yysp-1]);}
+        yysv[yysp-=1] = yyrv;
+        return 1;
+    }
+
+    private int yyr17() { // award : IDENTIFIER WHITESPACE NUM
+        { yyrv = new Award(yysv[yysp-3],yysv[yysp-1]); }
+        yysv[yysp-=3] = yyrv;
+        switch (yyst[yysp-1]) {
+            case 13: return 19;
+            default: return 28;
+        }
+    }
+
+    private int yyr15() { // awardflow : awardflow ';' white award white
         { yyrv = new AwardFlow(yysv[yysp-5],yysv[yysp-2]); }
         yysv[yysp-=5] = yyrv;
-        return 11;
+        return 12;
     }
 
-    private int yyr13() { // awardflow : white award white
+    private int yyr16() { // awardflow : white award white
         { yyrv = new AwardFlow(yysv[yysp-2]); }
         yysv[yysp-=3] = yyrv;
-        return 11;
+        return 12;
     }
 
-    private int yyr7() { // command : IDENTIFIER
+    private int yyr10() { // command : IDENTIFIER
         yysp -= 1;
         return 2;
     }
 
-    private int yyr2() { // end : white
+    private int yyr5() { // end : white
         yysp -= 1;
-        return 15;
+        return 16;
     }
 
-    private int yyr3() { // end : ';'
+    private int yyr6() { // end : ';'
         yysp -= 1;
-        return 15;
+        return 16;
     }
 
-    private int yyr4() { // end : white ';'
+    private int yyr7() { // end : white ';'
         yysp -= 2;
-        return 15;
+        return 16;
     }
 
-    private int yyr9() { // matchCondition : '(' userIds ')'
+    private int yyr12() { // matchCondition : '(' userIds ')'
         { yyrv = new MatchCondition(yysv[yysp-2]); }
         yysv[yysp-=3] = yyrv;
-        return 9;
+        return 10;
     }
 
-    private int yyr14() { // award : IDENTIFIER WHITESPACE NUM
-        { yyrv = new Award(yysv[yysp-3],yysv[yysp-1]); }
-        yysv[yysp-=3] = yyrv;
-        switch (yyst[yysp-1]) {
-            case 12: return 18;
-            default: return 27;
-        }
-    }
-
-    private int yyr8() { // rulename : IDENTIFIER
-        yysp -= 1;
+    private int yyr3() { // arguments : rulename white matchCondition awardflow end
+        {yyrv = new MultiArguments(yysv[yysp-5],yysv[yysp-3],yysv[yysp-2]);}
+        yysv[yysp-=5] = yyrv;
         return 5;
     }
 
-    private int yyr10() { // userIds : userIds ':' NUM
+    private int yyr4() { // arguments : rulename
+        {yyrv = new SingleArguments(yysv[yysp-1]);}
+        yysv[yysp-=1] = yyrv;
+        return 5;
+    }
+
+    private int yyr11() { // rulename : IDENTIFIER
+        yysp -= 1;
+        return 6;
+    }
+
+    private int yyr13() { // userIds : userIds ':' NUM
         { yyrv = new UserIds(yysv[yysp-3],yysv[yysp-1]); }
         yysv[yysp-=3] = yyrv;
-        return 13;
+        return 14;
     }
 
-    private int yyr11() { // userIds : NUM
+    private int yyr14() { // userIds : NUM
         { yyrv = new UserIds(yysv[yysp-1]); }
         yysv[yysp-=1] = yyrv;
-        return 13;
+        return 14;
     }
 
-    private int yyr5() { // white : WHITESPACE
+    private int yyr8() { // white : WHITESPACE
         yysp -= 1;
         return yypwhite();
     }
 
-    private int yyr6() { // white : /* empty */
+    private int yyr9() { // white : /* empty */
         return yypwhite();
     }
 
     private int yypwhite() {
         switch (yyst[yysp-1]) {
+            case 19: return 25;
             case 18: return 24;
-            case 17: return 23;
-            case 11: return 16;
-            case 9: return 12;
-            case 5: return 7;
-            default: return 29;
+            case 12: return 17;
+            case 10: return 13;
+            case 6: return 8;
+            default: return 30;
         }
     }
 

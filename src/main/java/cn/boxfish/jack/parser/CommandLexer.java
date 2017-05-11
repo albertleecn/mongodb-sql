@@ -15,25 +15,115 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+class Command{
+    private final static Logger logger = LoggerFactory.getLogger(Command.class);
+
+    private String commandName;
+    private Arguments arguments;
+
+    Command(Object comandName,Object arguments){
+        this.commandName = (String)comandName;
+        this.arguments = (Arguments)arguments;
+        execute();
+    }
+
+    Command(Object comandName){
+        this.commandName = (String)comandName;
+        execute();
+    }
+
+    void execute(){
+        logger.info("execute: {} - {}", commandName, arguments);
+        if(commandName.equals("config")){
+            MultiArguments multiArguments = (MultiArguments)arguments;
+            Rule rule = new Rule(multiArguments.getRuleName(), multiArguments.getMatchCondition(), multiArguments.getAwardFlow());
+            rule.createRule();
+        }
+        if(commandName.equals("delete")){
+            SingleArguments singleArguments = (SingleArguments)arguments;
+            Rule rule = new Rule(singleArguments.getRuleName(), null, null);
+            rule.deleteRule();
+        }
+    }
+
+}
+
+abstract class Arguments{
+
+}
+
+class SingleArguments extends Arguments{
+    private String ruleName;
+
+    SingleArguments(Object rulename){
+        this.ruleName = (String)rulename;
+    }
+
+    public String getRuleName() {
+        return ruleName;
+    }
+
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
+}
+
+class MultiArguments extends Arguments{
+    private String ruleName;
+    private MatchCondition matchCondition;
+    private AwardFlow awardFlow;
+
+    MultiArguments(Object ruleName, Object matchCondition, Object awardFlow){
+        this.ruleName = (String)ruleName;
+        this.matchCondition = (MatchCondition)matchCondition;
+        this.awardFlow = (AwardFlow)awardFlow;
+    }
+
+    public String getRuleName() {
+        return ruleName;
+    }
+
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
+
+    public AwardFlow getAwardFlow() {
+        return awardFlow;
+    }
+
+    public void setAwardFlow(AwardFlow awardFlow) {
+        this.awardFlow = awardFlow;
+    }
+
+    public MatchCondition getMatchCondition() {
+        return matchCondition;
+    }
+
+    public void setMatchCondition(MatchCondition matchCondition) {
+        this.matchCondition = matchCondition;
+    }
+}
+
+
 class Rule {
-    private String command;
     private String ruleName;
     private AwardFlow awardFlow;
     private MatchCondition matchCondition;
 
-    Rule(Object command, Object ruleName, Object matchCondition, Object awardFlow) {
-        this((String) command, (String) ruleName, (MatchCondition) matchCondition, (AwardFlow) awardFlow);
-    }
-
-    Rule(String command, String ruleName, MatchCondition matchCondition, AwardFlow awardFlow) {
-        this.command = command;
+    Rule(String ruleName, MatchCondition matchCondition, AwardFlow awardFlow) {
         this.ruleName = ruleName;
         this.matchCondition = matchCondition;
         this.awardFlow = awardFlow;
-        printSql();
     }
 
-    void printSql() {
+    void deleteRule(){
+        StringBuilder deleteSql = new StringBuilder();
+        deleteSql.append("delete from rule where rule_code =").append(wrapper(ruleName)).append(";\n");
+        deleteSql.append("delete from activity_award_config where activity_code = ").append(wrapper(ruleName)).append(";\n");
+        System.out.println(deleteSql.toString());
+    }
+
+    void createRule() {
         StringBuilder insertRule = new StringBuilder();
         insertRule.append("start TRANSACTION;\n");
         insertRule.append("insert into `rule` ( `name`, `rule_code`, `rule_condition`, `rule_flow`, `rule_state`, `desc`) values ( ");
