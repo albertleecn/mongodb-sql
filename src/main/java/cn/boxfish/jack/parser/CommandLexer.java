@@ -4,6 +4,9 @@ package cn.boxfish.jack.parser;
  * Created by lvtu on 2017/5/10.
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -31,7 +34,6 @@ class Rule {
     }
 
     void printSql() {
-        System.out.println(command + " " + " " + ruleName + " " + matchCondition + " " + awardFlow);
         StringBuilder insertRule = new StringBuilder();
         insertRule.append("start TRANSACTION;\n");
         insertRule.append("insert into `rule` ( `name`, `rule_code`, `rule_condition`, `rule_flow`, `rule_state`, `desc`) values ( ");
@@ -159,6 +161,8 @@ class Award {
 
 class CommandLexer implements CommandTokens {
 
+    private final static Logger logger = LoggerFactory.getLogger(CommandLexer.class);
+
     private static final Pattern whiteSpacePattern = Pattern.compile("^\\s");
     private static final Pattern identifierPattern = Pattern.compile("^[a-zA-Z]+(\\w|-|)*");
     private static final Pattern numPattern = Pattern.compile("^\\d+");
@@ -185,7 +189,7 @@ class CommandLexer implements CommandTokens {
      * corresponding integer code.
      */
     int nextToken() {
-        System.out.println(command);
+        logger.info("scan tokens: {}", command);
         Matcher identifierMatcher = identifierPattern.matcher(command);
         if (identifierMatcher.find()) {
             yylval = identifierMatcher.group();
