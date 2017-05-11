@@ -1,4 +1,4 @@
-// Output created by jacc on Thu May 11 10:50:53 CST 2017
+// Output created by jacc on Thu May 11 16:31:24 CST 2017
 
 package cn.boxfish.jack.parser;
 
@@ -15,6 +15,7 @@ class CommandParser implements CommandTokens {
         int yyn = 0;
         yysp = 0;
         yyst = new int[yyss];
+        yyerrno = (-1);
         yysv = new Object[yyss];
         yytok = (lexer.getToken()
                  );
@@ -28,6 +29,9 @@ class CommandParser implements CommandTokens {
                     }
                 case 30:
                     switch (yytok) {
+                        case '(':
+                            yyn = yyerr(0, 63);
+                            continue;
                         case IDENTIFIER:
                             yyn = 3;
                             continue;
@@ -106,6 +110,9 @@ class CommandParser implements CommandTokens {
                     }
                 case 35:
                     switch (yytok) {
+                        case ';':
+                            yyn = yyerr(1, 63);
+                            continue;
                         case WHITESPACE:
                             yyn = 8;
                             continue;
@@ -142,6 +149,9 @@ class CommandParser implements CommandTokens {
                     }
                 case 37:
                     switch (yytok) {
+                        case ';':
+                            yyn = yyerr(1, 63);
+                            continue;
                         case '(':
                             yyn = 10;
                             continue;
@@ -177,6 +187,9 @@ class CommandParser implements CommandTokens {
                     }
                 case 39:
                     switch (yytok) {
+                        case ';':
+                            yyn = yyerr(2, 63);
+                            continue;
                         case WHITESPACE:
                             yyn = 8;
                             continue;
@@ -656,7 +669,14 @@ class CommandParser implements CommandTokens {
         }
     }
 
+    private int yyerr(int e, int n) {
+        yyerrno = e;
+        return n;
+    }
     protected String[] yyerrmsgs = {
+        "userIds followed ';'",
+        "no matchCondition",
+        "no awardflow"
     };
 
 

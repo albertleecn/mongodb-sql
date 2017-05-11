@@ -1,0 +1,12 @@
+"userIds followed ';'"
+    : '(' userIds ';' ')'
+    ;
+
+"no matchCondition"
+    :command WHITESPACE rulename white ';'
+    |command WHITESPACE rulename ';'
+    ;
+
+"no awardflow"
+    :command WHITESPACE rulename white matchCondition ';'
+    ;

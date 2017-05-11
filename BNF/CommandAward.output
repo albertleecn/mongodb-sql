@@ -1,8 +1,9 @@
-// Output created by jacc on Thu May 11 10:51:04 CST 2017
+// Output created by jacc on Thu May 11 16:31:24 CST 2017
 
 state 0 (entry on prog)
     $accept : _prog $end
 
+    '(' error "userIds followed ';'"
     IDENTIFIER shift 3
     . error
 
@@ -39,6 +40,7 @@ state 5 (entry on rulename)
     prog : command WHITESPACE rulename_white matchCondition awardflow end    (1)
     white : _    (6)
 
+    ';' error "no matchCondition"
     WHITESPACE shift 8
     '(' reduce 6
     . error
@@ -55,6 +57,7 @@ state 6 (entry on IDENTIFIER)
 state 7 (entry on white)
     prog : command WHITESPACE rulename white_matchCondition awardflow end    (1)
 
+    ';' error "no matchCondition"
     '(' shift 10
     . error
 
@@ -73,6 +76,7 @@ state 9 (entry on matchCondition)
     prog : command WHITESPACE rulename white matchCondition_awardflow end    (1)
     white : _    (6)
 
+    ';' error "no awardflow"
     WHITESPACE shift 8
     IDENTIFIER reduce 6
     . error
