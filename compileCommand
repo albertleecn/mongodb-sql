@@ -1,8 +1,6 @@
 #!/bin/sh
 
-if [ -n "$JACC_PATH" ] ; then
-    echo $JACC_PATH
-else
+if [ -z "$JACC_PATH" ] ; then
     echo "please set JACC_PATH variable"
     exit 1
 fi
