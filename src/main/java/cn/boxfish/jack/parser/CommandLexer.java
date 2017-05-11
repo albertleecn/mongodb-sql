@@ -42,7 +42,7 @@ class CommandLexer implements CommandTokens {
      * corresponding integer code.
      */
     int nextToken() {
-        logger.info("scan tokens: {}", command);
+        logger.debug("scan tokens: {}", command);
         Matcher identifierMatcher = identifierPattern.matcher(command);
         if (identifierMatcher.find()) {
             yylval = identifierMatcher.group();

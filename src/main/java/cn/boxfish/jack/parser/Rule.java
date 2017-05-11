@@ -1,11 +1,16 @@
 package cn.boxfish.jack.parser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 /**
  * Created by lvtu on 2017/5/11.
  */
 class Rule {
+    private final static Logger logger = LoggerFactory.getLogger(Rule.class);
+
     private String ruleName;
     private AwardFlow awardFlow;
     private MatchCondition matchCondition;

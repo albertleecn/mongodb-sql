@@ -24,7 +24,7 @@ class Command{
     }
 
     void execute(){
-        logger.info("execute: {} - {}", commandName, arguments);
+        logger.debug("execute: {} - {}", commandName, arguments);
         if(commandName.equals("config")){
             MultiArguments multiArguments = (MultiArguments)arguments;
             Rule rule = new Rule(multiArguments.getRuleName(), multiArguments.getMatchCondition(), multiArguments.getAwardFlow());
