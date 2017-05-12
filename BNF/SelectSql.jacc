@@ -1,0 +1,140 @@
+%package   xxx.xxx.xxx
+%class     SelectParser
+%interface SelectTokens
+%token SELECT FROM WHERE IDENTIFIER NUMBER AND OR TRUE FALSE UNKNOWN NULL AS IN LIKE EXISTS IS NOT BETWEEN ',' '!' '(' ')' '<' '>' '=' SINGLEQUOTE '*'
+
+%%
+
+prog : SELECT '*' FROM table whereclause
+     | SELECT columns FROM table whereclause
+     ;
+
+table : IDENTIFIER
+      | '(' prog ')' tablealias
+      ;
+
+tablealias : IDENTIFIER
+           ;
+
+columns : columns ',' column
+        | column
+        ;
+
+column  : field asclause
+        | num asclause
+        | string asclause
+        ;
+
+asclause : AS columnalias
+         |
+         ;
+
+columnalias : IDENTIFIER
+      ;
+
+whereclause : WHERE searchCondition
+		|
+		;
+
+searchCondition : booleanTerm
+                | searchCondition OR booleanTerm
+                ;
+
+booleanTerm : booleanFactor
+            | booleanTerm AND booleanFactor
+            ;
+
+booleanFactor : booleanTest
+              | NOT booleanTest
+              ;
+
+booleanTest   : booleanPrimary
+              | booleanPrimary  IS  truthValue
+              | booleanPrimary  IS  NOT truthValue
+              ;
+
+truthValue : TRUE
+           | FALSE
+           | UNKNOWN
+           ;
+
+booleanPrimary  : predicate
+                | '(' searchCondition ')'
+                ;
+
+predicate   : comparisonPredicate
+            | betweenPredicate
+            | inPredicate
+            | likePredicate
+            | nullPredicate
+            | existsPredicate
+            ;
+
+comparisonPredicate    :   rowValueConstructor compOp rowValueConstructor
+                       ;
+
+betweenPredicate : rowValueConstructor BETWEEN rowValueConstructor AND rowValueConstructor
+                 ;
+inPredicate : IN '(' ')'
+            ;
+likePredicate : LIKE string
+              ;
+
+nullPredicate : rowValueConstructor IS NULL
+              ;
+
+existsPredicate :  EXISTS tableSubquery
+                ;
+
+tableSubquery    :   subquery
+                 ;
+
+rowValueConstructor    : rowValueConstructorElement
+                       | '(' rowValueConstructorList ')'
+                       | rowSubquery
+                       ;
+
+rowSubquery : subquery
+            ;
+
+subquery : '(' prog ')'
+         ;
+
+rowValueConstructorList : rowValueConstructorElement
+                        | rowValueConstructorList ',' rowValueConstructorElement
+                        ;
+
+rowValueConstructorElement : string
+                           | num
+                           | field
+                           | NULL
+                           ;
+
+compOp : '='
+	   | '!' '='
+	   | '<' '>'
+	   | '<'
+	   | '<' '='
+	   | '>'
+	   | '>' '='
+	   ;
+
+field : IDENTIFIER
+		;
+
+num   : NUMBER
+	  ;
+
+string : SINGLEQUOTE IDENTIFIER SINGLEQUOTE
+       | SINGLEQUOTE NUMBER SINGLEQUOTE
+       ;
+
+%%
+
+  private SelectLexer lexer;
+
+  SelectParser(SelectLexer lexer) { this.lexer = lexer; }
+
+  private void yyerror(String msg) {
+    Main.error(yyerrno<0 ? msg : yyerrmsgs[yyerrno]);
+  }
