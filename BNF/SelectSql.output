@@ -1,12 +1,14 @@
-// Output created by jacc on Fri May 12 16:42:11 CST 2017
+// Output created by jacc on Mon May 15 10:14:13 CST 2017
 
 state 0 (entry on prog)
     $accept : _prog $end
 
-    SELECT shift 2
+    SELECT shift 4
     . error
 
     prog goto 1
+    selectclause goto 2
+    sql goto 3
 
 state 1 (entry on prog)
     $accept : prog_$end
@@ -14,242 +16,107 @@ state 1 (entry on prog)
     $end accept
     . error
 
-state 2 (entry on SELECT)
-    prog : SELECT_'*' FROM table whereclause    (1)
-    prog : SELECT_columns FROM table whereclause    (2)
+state 2 (entry on selectclause)
+    sql : selectclause_fromclause whereclause    (2)
 
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    '*' shift 11
+    FROM shift 6
     . error
 
-    column goto 3
-    columns goto 4
-    field goto 5
-    num goto 6
-    string goto 7
+    fromclause goto 5
 
-state 3 (entry on column)
-    columns : column_    (7)
+state 3 (entry on sql)
+    prog : sql_    (1)
 
-    ',' reduce 7
-    FROM reduce 7
+    $end reduce 1
     . error
 
-state 4 (entry on columns)
-    prog : SELECT columns_FROM table whereclause    (2)
-    columns : columns_',' column    (6)
+state 4 (entry on SELECT)
+    selectclause : SELECT_'*'    (3)
+    selectclause : SELECT_columns    (4)
 
-    FROM shift 12
-    ',' shift 13
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    '*' shift 15
     . error
 
-state 5 (entry on field)
-    column : field_asclause    (8)
-    asclause : _    (12)
+    column goto 7
+    columns goto 8
+    field goto 9
+    num goto 10
+    string goto 11
 
-    AS shift 15
-    ',' reduce 12
-    FROM reduce 12
+state 5 (entry on fromclause)
+    sql : selectclause fromclause_whereclause    (2)
+    whereclause : _    (17)
+
+    WHERE shift 17
+    $end reduce 17
+    ')' reduce 17
     . error
 
-    asclause goto 14
+    whereclause goto 16
 
-state 6 (entry on num)
-    column : num_asclause    (9)
-    asclause : _    (12)
+state 6 (entry on FROM)
+    fromclause : FROM_IDENTIFIER    (5)
+    fromclause : FROM_subquery tablealias    (6)
 
-    AS shift 15
-    ',' reduce 12
-    FROM reduce 12
+    IDENTIFIER shift 19
+    '(' shift 20
     . error
 
-    asclause goto 16
+    subquery goto 18
 
-state 7 (entry on string)
-    column : string_asclause    (10)
-    asclause : _    (12)
-
-    AS shift 15
-    ',' reduce 12
-    FROM reduce 12
-    . error
-
-    asclause goto 17
-
-state 8 (entry on IDENTIFIER)
-    field : IDENTIFIER_    (61)
-
-    '>' reduce 61
-    OR reduce 61
-    '<' reduce 61
-    ',' reduce 61
-    FROM reduce 61
-    BETWEEN reduce 61
-    ')' reduce 61
-    '!' reduce 61
-    IS reduce 61
-    '=' reduce 61
-    AS reduce 61
-    $end reduce 61
-    AND reduce 61
-    . error
-
-state 9 (entry on NUMBER)
-    num : NUMBER_    (62)
-
-    '>' reduce 62
-    OR reduce 62
-    '<' reduce 62
-    ',' reduce 62
-    FROM reduce 62
-    BETWEEN reduce 62
-    ')' reduce 62
-    '!' reduce 62
-    IS reduce 62
-    '=' reduce 62
-    AS reduce 62
-    $end reduce 62
-    AND reduce 62
-    . error
-
-state 10 (entry on SINGLEQUOTE)
-    string : SINGLEQUOTE_IDENTIFIER SINGLEQUOTE    (63)
-    string : SINGLEQUOTE_NUMBER SINGLEQUOTE    (64)
-
-    IDENTIFIER shift 18
-    NUMBER shift 19
-    . error
-
-state 11 (entry on '*')
-    prog : SELECT '*'_FROM table whereclause    (1)
-
-    FROM shift 20
-    . error
-
-state 12 (entry on FROM)
-    prog : SELECT columns FROM_table whereclause    (2)
-
-    IDENTIFIER shift 22
-    '(' shift 23
-    . error
-
-    table goto 21
-
-state 13 (entry on ',')
-    columns : columns ','_column    (6)
-
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    . error
-
-    column goto 24
-    field goto 5
-    num goto 6
-    string goto 7
-
-state 14 (entry on asclause)
-    column : field asclause_    (8)
-
-    ',' reduce 8
-    FROM reduce 8
-    . error
-
-state 15 (entry on AS)
-    asclause : AS_columnalias    (11)
-
-    IDENTIFIER shift 26
-    . error
-
-    columnalias goto 25
-
-state 16 (entry on asclause)
-    column : num asclause_    (9)
+state 7 (entry on column)
+    columns : column_    (9)
 
     ',' reduce 9
     FROM reduce 9
     . error
 
-state 17 (entry on asclause)
-    column : string asclause_    (10)
+state 8 (entry on columns)
+    columns : columns_',' column    (8)
+    selectclause : SELECT columns_    (4)
 
-    ',' reduce 10
-    FROM reduce 10
+    ',' shift 21
+    FROM reduce 4
     . error
 
-state 18 (entry on IDENTIFIER)
-    string : SINGLEQUOTE IDENTIFIER_SINGLEQUOTE    (63)
+state 9 (entry on field)
+    column : field_asclause    (10)
+    asclause : _    (14)
 
-    SINGLEQUOTE shift 27
+    AS shift 23
+    ',' reduce 14
+    FROM reduce 14
     . error
 
-state 19 (entry on NUMBER)
-    string : SINGLEQUOTE NUMBER_SINGLEQUOTE    (64)
+    asclause goto 22
 
-    SINGLEQUOTE shift 28
+state 10 (entry on num)
+    column : num_asclause    (11)
+    asclause : _    (14)
+
+    AS shift 23
+    ',' reduce 14
+    FROM reduce 14
     . error
 
-state 20 (entry on FROM)
-    prog : SELECT '*' FROM_table whereclause    (1)
+    asclause goto 24
 
-    IDENTIFIER shift 22
-    '(' shift 23
+state 11 (entry on string)
+    column : string_asclause    (12)
+    asclause : _    (14)
+
+    AS shift 23
+    ',' reduce 14
+    FROM reduce 14
     . error
 
-    table goto 29
+    asclause goto 25
 
-state 21 (entry on table)
-    prog : SELECT columns FROM table_whereclause    (2)
-    whereclause : _    (15)
-
-    WHERE shift 31
-    $end reduce 15
-    ')' reduce 15
-    . error
-
-    whereclause goto 30
-
-state 22 (entry on IDENTIFIER)
-    table : IDENTIFIER_    (3)
-
-    $end reduce 3
-    ')' reduce 3
-    WHERE reduce 3
-    . error
-
-state 23 (entry on '(')
-    table : '('_prog ')' tablealias    (4)
-
-    SELECT shift 2
-    . error
-
-    prog goto 32
-
-state 24 (entry on column)
-    columns : columns ',' column_    (6)
-
-    ',' reduce 6
-    FROM reduce 6
-    . error
-
-state 25 (entry on columnalias)
-    asclause : AS columnalias_    (11)
-
-    ',' reduce 11
-    FROM reduce 11
-    . error
-
-state 26 (entry on IDENTIFIER)
-    columnalias : IDENTIFIER_    (13)
-
-    ',' reduce 13
-    FROM reduce 13
-    . error
-
-state 27 (entry on SINGLEQUOTE)
-    string : SINGLEQUOTE IDENTIFIER SINGLEQUOTE_    (63)
+state 12 (entry on IDENTIFIER)
+    field : IDENTIFIER_    (63)
 
     '>' reduce 63
     OR reduce 63
@@ -266,8 +133,8 @@ state 27 (entry on SINGLEQUOTE)
     AND reduce 63
     . error
 
-state 28 (entry on SINGLEQUOTE)
-    string : SINGLEQUOTE NUMBER SINGLEQUOTE_    (64)
+state 13 (entry on NUMBER)
+    num : NUMBER_    (64)
 
     '>' reduce 64
     OR reduce 64
@@ -284,169 +151,142 @@ state 28 (entry on SINGLEQUOTE)
     AND reduce 64
     . error
 
-state 29 (entry on table)
-    prog : SELECT '*' FROM table_whereclause    (1)
-    whereclause : _    (15)
+state 14 (entry on SINGLEQUOTE)
+    string : SINGLEQUOTE_IDENTIFIER SINGLEQUOTE    (65)
+    string : SINGLEQUOTE_NUMBER SINGLEQUOTE    (66)
 
-    WHERE shift 31
-    $end reduce 15
-    ')' reduce 15
+    IDENTIFIER shift 26
+    NUMBER shift 27
     . error
 
-    whereclause goto 33
+state 15 (entry on '*')
+    selectclause : SELECT '*'_    (3)
 
-state 30 (entry on whereclause)
-    prog : SELECT columns FROM table whereclause_    (2)
+    FROM reduce 3
+    . error
+
+state 16 (entry on whereclause)
+    sql : selectclause fromclause whereclause_    (2)
 
     $end reduce 2
     ')' reduce 2
     . error
 
-state 31 (entry on WHERE)
-    whereclause : WHERE_searchCondition    (14)
+state 17 (entry on WHERE)
+    whereclause : WHERE_searchCondition    (16)
 
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    EXISTS shift 53
-    IN shift 54
-    LIKE shift 55
-    NOT shift 56
-    NULL shift 57
-    '(' shift 58
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    EXISTS shift 47
+    IN shift 48
+    LIKE shift 49
+    NOT shift 50
+    NULL shift 51
+    '(' shift 52
     . error
 
-    betweenPredicate goto 34
-    booleanFactor goto 35
-    booleanPrimary goto 36
-    booleanTerm goto 37
-    booleanTest goto 38
-    comparisonPredicate goto 39
-    existsPredicate goto 40
-    field goto 41
-    inPredicate goto 42
-    likePredicate goto 43
-    nullPredicate goto 44
-    num goto 45
-    predicate goto 46
-    rowSubquery goto 47
-    rowValueConstructor goto 48
-    rowValueConstructorElement goto 49
-    searchCondition goto 50
-    string goto 51
-    subquery goto 52
+    betweenPredicate goto 28
+    booleanFactor goto 29
+    booleanPrimary goto 30
+    booleanTerm goto 31
+    booleanTest goto 32
+    comparisonPredicate goto 33
+    existsPredicate goto 34
+    field goto 35
+    inPredicate goto 36
+    likePredicate goto 37
+    nullPredicate goto 38
+    num goto 39
+    predicate goto 40
+    rowSubquery goto 41
+    rowValueConstructor goto 42
+    rowValueConstructorElement goto 43
+    searchCondition goto 44
+    string goto 45
+    subquery goto 46
 
-state 32 (entry on prog)
-    table : '(' prog_')' tablealias    (4)
+state 18 (entry on subquery)
+    fromclause : FROM subquery_tablealias    (6)
 
-    ')' shift 59
+    IDENTIFIER shift 54
     . error
 
-state 33 (entry on whereclause)
-    prog : SELECT '*' FROM table whereclause_    (1)
+    tablealias goto 53
 
-    $end reduce 1
-    ')' reduce 1
+state 19 (entry on IDENTIFIER)
+    fromclause : FROM IDENTIFIER_    (5)
+
+    $end reduce 5
+    ')' reduce 5
+    WHERE reduce 5
     . error
 
-state 34 (entry on betweenPredicate)
-    predicate : betweenPredicate_    (31)
+state 20 (entry on '(')
+    subquery : '('_sql ')'    (49)
 
-    $end reduce 31
-    OR reduce 31
-    ')' reduce 31
-    IS reduce 31
-    AND reduce 31
+    SELECT shift 4
     . error
 
-state 35 (entry on booleanFactor)
-    booleanTerm : booleanFactor_    (18)
+    selectclause goto 2
+    sql goto 55
 
-    $end reduce 18
-    OR reduce 18
-    ')' reduce 18
-    AND reduce 18
+state 21 (entry on ',')
+    columns : columns ','_column    (8)
+
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
     . error
 
-state 36 (entry on booleanPrimary)
-    booleanTest : booleanPrimary_    (22)
-    booleanTest : booleanPrimary_IS truthValue    (23)
-    booleanTest : booleanPrimary_IS NOT truthValue    (24)
+    column goto 56
+    field goto 9
+    num goto 10
+    string goto 11
 
-    IS shift 60
-    $end reduce 22
-    OR reduce 22
-    ')' reduce 22
-    AND reduce 22
+state 22 (entry on asclause)
+    column : field asclause_    (10)
+
+    ',' reduce 10
+    FROM reduce 10
     . error
 
-state 37 (entry on booleanTerm)
-    booleanTerm : booleanTerm_AND booleanFactor    (19)
-    searchCondition : booleanTerm_    (16)
+state 23 (entry on AS)
+    asclause : AS_columnalias    (13)
 
-    AND shift 61
-    $end reduce 16
-    OR reduce 16
-    ')' reduce 16
+    IDENTIFIER shift 58
     . error
 
-state 38 (entry on booleanTest)
-    booleanFactor : booleanTest_    (20)
+    columnalias goto 57
 
-    $end reduce 20
-    OR reduce 20
-    ')' reduce 20
-    AND reduce 20
+state 24 (entry on asclause)
+    column : num asclause_    (11)
+
+    ',' reduce 11
+    FROM reduce 11
     . error
 
-state 39 (entry on comparisonPredicate)
-    predicate : comparisonPredicate_    (30)
+state 25 (entry on asclause)
+    column : string asclause_    (12)
 
-    $end reduce 30
-    OR reduce 30
-    ')' reduce 30
-    IS reduce 30
-    AND reduce 30
+    ',' reduce 12
+    FROM reduce 12
     . error
 
-state 40 (entry on existsPredicate)
-    predicate : existsPredicate_    (35)
+state 26 (entry on IDENTIFIER)
+    string : SINGLEQUOTE IDENTIFIER_SINGLEQUOTE    (65)
 
-    $end reduce 35
-    OR reduce 35
-    ')' reduce 35
-    IS reduce 35
-    AND reduce 35
+    SINGLEQUOTE shift 59
     . error
 
-state 41 (entry on field)
-    rowValueConstructorElement : field_    (52)
+state 27 (entry on NUMBER)
+    string : SINGLEQUOTE NUMBER_SINGLEQUOTE    (66)
 
-    '>' reduce 52
-    OR reduce 52
-    '<' reduce 52
-    ',' reduce 52
-    BETWEEN reduce 52
-    ')' reduce 52
-    '!' reduce 52
-    '=' reduce 52
-    IS reduce 52
-    $end reduce 52
-    AND reduce 52
+    SINGLEQUOTE shift 60
     . error
 
-state 42 (entry on inPredicate)
-    predicate : inPredicate_    (32)
-
-    $end reduce 32
-    OR reduce 32
-    ')' reduce 32
-    IS reduce 32
-    AND reduce 32
-    . error
-
-state 43 (entry on likePredicate)
-    predicate : likePredicate_    (33)
+state 28 (entry on betweenPredicate)
+    predicate : betweenPredicate_    (33)
 
     $end reduce 33
     OR reduce 33
@@ -455,8 +295,84 @@ state 43 (entry on likePredicate)
     AND reduce 33
     . error
 
-state 44 (entry on nullPredicate)
-    predicate : nullPredicate_    (34)
+state 29 (entry on booleanFactor)
+    booleanTerm : booleanFactor_    (20)
+
+    $end reduce 20
+    OR reduce 20
+    ')' reduce 20
+    AND reduce 20
+    . error
+
+state 30 (entry on booleanPrimary)
+    booleanTest : booleanPrimary_    (24)
+    booleanTest : booleanPrimary_IS truthValue    (25)
+    booleanTest : booleanPrimary_IS NOT truthValue    (26)
+
+    IS shift 61
+    $end reduce 24
+    OR reduce 24
+    ')' reduce 24
+    AND reduce 24
+    . error
+
+state 31 (entry on booleanTerm)
+    booleanTerm : booleanTerm_AND booleanFactor    (21)
+    searchCondition : booleanTerm_    (18)
+
+    AND shift 62
+    $end reduce 18
+    OR reduce 18
+    ')' reduce 18
+    . error
+
+state 32 (entry on booleanTest)
+    booleanFactor : booleanTest_    (22)
+
+    $end reduce 22
+    OR reduce 22
+    ')' reduce 22
+    AND reduce 22
+    . error
+
+state 33 (entry on comparisonPredicate)
+    predicate : comparisonPredicate_    (32)
+
+    $end reduce 32
+    OR reduce 32
+    ')' reduce 32
+    IS reduce 32
+    AND reduce 32
+    . error
+
+state 34 (entry on existsPredicate)
+    predicate : existsPredicate_    (37)
+
+    $end reduce 37
+    OR reduce 37
+    ')' reduce 37
+    IS reduce 37
+    AND reduce 37
+    . error
+
+state 35 (entry on field)
+    rowValueConstructorElement : field_    (54)
+
+    '>' reduce 54
+    OR reduce 54
+    '<' reduce 54
+    ',' reduce 54
+    BETWEEN reduce 54
+    ')' reduce 54
+    '!' reduce 54
+    '=' reduce 54
+    IS reduce 54
+    $end reduce 54
+    AND reduce 54
+    . error
+
+state 36 (entry on inPredicate)
+    predicate : inPredicate_    (34)
 
     $end reduce 34
     OR reduce 34
@@ -465,172 +381,28 @@ state 44 (entry on nullPredicate)
     AND reduce 34
     . error
 
-state 45 (entry on num)
-    rowValueConstructorElement : num_    (51)
+state 37 (entry on likePredicate)
+    predicate : likePredicate_    (35)
 
-    '>' reduce 51
-    OR reduce 51
-    '<' reduce 51
-    ',' reduce 51
-    BETWEEN reduce 51
-    ')' reduce 51
-    '!' reduce 51
-    '=' reduce 51
-    IS reduce 51
-    $end reduce 51
-    AND reduce 51
+    $end reduce 35
+    OR reduce 35
+    ')' reduce 35
+    IS reduce 35
+    AND reduce 35
     . error
 
-state 46 (entry on predicate)
-    booleanPrimary : predicate_    (28)
+state 38 (entry on nullPredicate)
+    predicate : nullPredicate_    (36)
 
-    $end reduce 28
-    OR reduce 28
-    ')' reduce 28
-    IS reduce 28
-    AND reduce 28
+    $end reduce 36
+    OR reduce 36
+    ')' reduce 36
+    IS reduce 36
+    AND reduce 36
     . error
 
-state 47 (entry on rowSubquery)
-    rowValueConstructor : rowSubquery_    (45)
-
-    '>' reduce 45
-    OR reduce 45
-    '=' reduce 45
-    '<' reduce 45
-    BETWEEN reduce 45
-    ')' reduce 45
-    '!' reduce 45
-    IS reduce 45
-    $end reduce 45
-    AND reduce 45
-    . error
-
-state 48 (entry on rowValueConstructor)
-    betweenPredicate : rowValueConstructor_BETWEEN rowValueConstructor AND rowValueConstructor    (37)
-    comparisonPredicate : rowValueConstructor_compOp rowValueConstructor    (36)
-    nullPredicate : rowValueConstructor_IS NULL    (40)
-
-    BETWEEN shift 63
-    IS shift 64
-    '!' shift 65
-    '<' shift 66
-    '=' shift 67
-    '>' shift 68
-    . error
-
-    compOp goto 62
-
-state 49 (entry on rowValueConstructorElement)
-    rowValueConstructor : rowValueConstructorElement_    (43)
-
-    '>' reduce 43
-    OR reduce 43
-    '=' reduce 43
-    '<' reduce 43
-    BETWEEN reduce 43
-    ')' reduce 43
-    '!' reduce 43
-    IS reduce 43
-    $end reduce 43
-    AND reduce 43
-    . error
-
-state 50 (entry on searchCondition)
-    searchCondition : searchCondition_OR booleanTerm    (17)
-    whereclause : WHERE searchCondition_    (14)
-
-    OR shift 69
-    $end reduce 14
-    ')' reduce 14
-    . error
-
-state 51 (entry on string)
-    rowValueConstructorElement : string_    (50)
-
-    '>' reduce 50
-    OR reduce 50
-    '<' reduce 50
-    ',' reduce 50
-    BETWEEN reduce 50
-    ')' reduce 50
-    '!' reduce 50
-    '=' reduce 50
-    IS reduce 50
-    $end reduce 50
-    AND reduce 50
-    . error
-
-state 52 (entry on subquery)
-    rowSubquery : subquery_    (46)
-
-    '>' reduce 46
-    OR reduce 46
-    '=' reduce 46
-    '<' reduce 46
-    BETWEEN reduce 46
-    ')' reduce 46
-    '!' reduce 46
-    IS reduce 46
-    $end reduce 46
-    AND reduce 46
-    . error
-
-state 53 (entry on EXISTS)
-    existsPredicate : EXISTS_tableSubquery    (41)
-
-    '(' shift 72
-    . error
-
-    subquery goto 70
-    tableSubquery goto 71
-
-state 54 (entry on IN)
-    inPredicate : IN_'(' ')'    (38)
-
-    '(' shift 73
-    . error
-
-state 55 (entry on LIKE)
-    likePredicate : LIKE_string    (39)
-
-    SINGLEQUOTE shift 10
-    . error
-
-    string goto 74
-
-state 56 (entry on NOT)
-    booleanFactor : NOT_booleanTest    (21)
-
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    EXISTS shift 53
-    IN shift 54
-    LIKE shift 55
-    NULL shift 57
-    '(' shift 58
-    . error
-
-    betweenPredicate goto 34
-    booleanPrimary goto 36
-    booleanTest goto 75
-    comparisonPredicate goto 39
-    existsPredicate goto 40
-    field goto 41
-    inPredicate goto 42
-    likePredicate goto 43
-    nullPredicate goto 44
-    num goto 45
-    predicate goto 46
-    rowSubquery goto 47
-    rowValueConstructor goto 48
-    rowValueConstructorElement goto 49
-    string goto 51
-    subquery goto 52
-
-state 57 (entry on NULL)
-    rowValueConstructorElement : NULL_    (53)
+state 39 (entry on num)
+    rowValueConstructorElement : num_    (53)
 
     '>' reduce 53
     OR reduce 53
@@ -645,480 +417,18 @@ state 57 (entry on NULL)
     AND reduce 53
     . error
 
-state 58 (entry on '(')
-    booleanPrimary : '('_searchCondition ')'    (29)
-    rowValueConstructor : '('_rowValueConstructorList ')'    (44)
-    subquery : '('_prog ')'    (47)
+state 40 (entry on predicate)
+    booleanPrimary : predicate_    (30)
 
-    SELECT shift 2
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    EXISTS shift 53
-    IN shift 54
-    LIKE shift 55
-    NOT shift 56
-    NULL shift 57
-    '(' shift 58
+    $end reduce 30
+    OR reduce 30
+    ')' reduce 30
+    IS reduce 30
+    AND reduce 30
     . error
 
-    prog goto 76
-    betweenPredicate goto 34
-    booleanFactor goto 35
-    booleanPrimary goto 36
-    booleanTerm goto 37
-    booleanTest goto 38
-    comparisonPredicate goto 39
-    existsPredicate goto 40
-    field goto 41
-    inPredicate goto 42
-    likePredicate goto 43
-    nullPredicate goto 44
-    num goto 45
-    predicate goto 46
-    rowSubquery goto 47
-    rowValueConstructor goto 48
-    rowValueConstructorElement goto 77
-    rowValueConstructorList goto 78
-    searchCondition goto 79
-    string goto 51
-    subquery goto 52
-
-state 59 (entry on ')')
-    table : '(' prog ')'_tablealias    (4)
-
-    IDENTIFIER shift 81
-    . error
-
-    tablealias goto 80
-
-state 60 (entry on IS)
-    booleanTest : booleanPrimary IS_truthValue    (23)
-    booleanTest : booleanPrimary IS_NOT truthValue    (24)
-
-    FALSE shift 83
-    NOT shift 84
-    TRUE shift 85
-    UNKNOWN shift 86
-    . error
-
-    truthValue goto 82
-
-state 61 (entry on AND)
-    booleanTerm : booleanTerm AND_booleanFactor    (19)
-
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    EXISTS shift 53
-    IN shift 54
-    LIKE shift 55
-    NOT shift 56
-    NULL shift 57
-    '(' shift 58
-    . error
-
-    betweenPredicate goto 34
-    booleanFactor goto 87
-    booleanPrimary goto 36
-    booleanTest goto 38
-    comparisonPredicate goto 39
-    existsPredicate goto 40
-    field goto 41
-    inPredicate goto 42
-    likePredicate goto 43
-    nullPredicate goto 44
-    num goto 45
-    predicate goto 46
-    rowSubquery goto 47
-    rowValueConstructor goto 48
-    rowValueConstructorElement goto 49
-    string goto 51
-    subquery goto 52
-
-state 62 (entry on compOp)
-    comparisonPredicate : rowValueConstructor compOp_rowValueConstructor    (36)
-
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    NULL shift 57
-    '(' shift 89
-    . error
-
-    field goto 41
-    num goto 45
-    rowSubquery goto 47
-    rowValueConstructor goto 88
-    rowValueConstructorElement goto 49
-    string goto 51
-    subquery goto 52
-
-state 63 (entry on BETWEEN)
-    betweenPredicate : rowValueConstructor BETWEEN_rowValueConstructor AND rowValueConstructor    (37)
-
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    NULL shift 57
-    '(' shift 89
-    . error
-
-    field goto 41
-    num goto 45
-    rowSubquery goto 47
-    rowValueConstructor goto 90
-    rowValueConstructorElement goto 49
-    string goto 51
-    subquery goto 52
-
-state 64 (entry on IS)
-    nullPredicate : rowValueConstructor IS_NULL    (40)
-
-    NULL shift 91
-    . error
-
-state 65 (entry on '!')
-    compOp : '!'_'='    (55)
-
-    '=' shift 92
-    . error
-
-state 66 (entry on '<')
-    compOp : '<'_'>'    (56)
-    compOp : '<'_    (57)
-    compOp : '<'_'='    (58)
-
-    '=' shift 93
-    '>' shift 94
-    IDENTIFIER reduce 57
-    NUMBER reduce 57
-    NULL reduce 57
-    '(' reduce 57
-    SINGLEQUOTE reduce 57
-    . error
-
-state 67 (entry on '=')
-    compOp : '='_    (54)
-
-    IDENTIFIER reduce 54
-    NUMBER reduce 54
-    NULL reduce 54
-    '(' reduce 54
-    SINGLEQUOTE reduce 54
-    . error
-
-state 68 (entry on '>')
-    compOp : '>'_    (59)
-    compOp : '>'_'='    (60)
-
-    '=' shift 95
-    IDENTIFIER reduce 59
-    NUMBER reduce 59
-    NULL reduce 59
-    '(' reduce 59
-    SINGLEQUOTE reduce 59
-    . error
-
-state 69 (entry on OR)
-    searchCondition : searchCondition OR_booleanTerm    (17)
-
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    EXISTS shift 53
-    IN shift 54
-    LIKE shift 55
-    NOT shift 56
-    NULL shift 57
-    '(' shift 58
-    . error
-
-    betweenPredicate goto 34
-    booleanFactor goto 35
-    booleanPrimary goto 36
-    booleanTerm goto 96
-    booleanTest goto 38
-    comparisonPredicate goto 39
-    existsPredicate goto 40
-    field goto 41
-    inPredicate goto 42
-    likePredicate goto 43
-    nullPredicate goto 44
-    num goto 45
-    predicate goto 46
-    rowSubquery goto 47
-    rowValueConstructor goto 48
-    rowValueConstructorElement goto 49
-    string goto 51
-    subquery goto 52
-
-state 70 (entry on subquery)
-    tableSubquery : subquery_    (42)
-
-    $end reduce 42
-    OR reduce 42
-    ')' reduce 42
-    IS reduce 42
-    AND reduce 42
-    . error
-
-state 71 (entry on tableSubquery)
-    existsPredicate : EXISTS tableSubquery_    (41)
-
-    $end reduce 41
-    OR reduce 41
-    ')' reduce 41
-    IS reduce 41
-    AND reduce 41
-    . error
-
-state 72 (entry on '(')
-    subquery : '('_prog ')'    (47)
-
-    SELECT shift 2
-    . error
-
-    prog goto 76
-
-state 73 (entry on '(')
-    inPredicate : IN '('_')'    (38)
-
-    ')' shift 97
-    . error
-
-state 74 (entry on string)
-    likePredicate : LIKE string_    (39)
-
-    $end reduce 39
-    OR reduce 39
-    ')' reduce 39
-    IS reduce 39
-    AND reduce 39
-    . error
-
-state 75 (entry on booleanTest)
-    booleanFactor : NOT booleanTest_    (21)
-
-    $end reduce 21
-    OR reduce 21
-    ')' reduce 21
-    AND reduce 21
-    . error
-
-state 76 (entry on prog)
-    subquery : '(' prog_')'    (47)
-
-    ')' shift 98
-    . error
-
-state 77 (entry on rowValueConstructorElement)
-    rowValueConstructor : rowValueConstructorElement_    (43)
-    rowValueConstructorList : rowValueConstructorElement_    (48)
-
-    '>' reduce 43
-    '=' reduce 43
-    '<' reduce 43
-    BETWEEN reduce 43
-    '!' reduce 43
-    IS reduce 43
-    ',' reduce 48
-    ')' reduce 48
-    . error
-
-state 78 (entry on rowValueConstructorList)
-    rowValueConstructor : '(' rowValueConstructorList_')'    (44)
-    rowValueConstructorList : rowValueConstructorList_',' rowValueConstructorElement    (49)
-
-    ')' shift 99
-    ',' shift 100
-    . error
-
-state 79 (entry on searchCondition)
-    booleanPrimary : '(' searchCondition_')'    (29)
-    searchCondition : searchCondition_OR booleanTerm    (17)
-
-    OR shift 69
-    ')' shift 101
-    . error
-
-state 80 (entry on tablealias)
-    table : '(' prog ')' tablealias_    (4)
-
-    $end reduce 4
-    ')' reduce 4
-    WHERE reduce 4
-    . error
-
-state 81 (entry on IDENTIFIER)
-    tablealias : IDENTIFIER_    (5)
-
-    $end reduce 5
-    ')' reduce 5
-    WHERE reduce 5
-    . error
-
-state 82 (entry on truthValue)
-    booleanTest : booleanPrimary IS truthValue_    (23)
-
-    $end reduce 23
-    OR reduce 23
-    ')' reduce 23
-    AND reduce 23
-    . error
-
-state 83 (entry on FALSE)
-    truthValue : FALSE_    (26)
-
-    $end reduce 26
-    OR reduce 26
-    ')' reduce 26
-    AND reduce 26
-    . error
-
-state 84 (entry on NOT)
-    booleanTest : booleanPrimary IS NOT_truthValue    (24)
-
-    FALSE shift 83
-    TRUE shift 85
-    UNKNOWN shift 86
-    . error
-
-    truthValue goto 102
-
-state 85 (entry on TRUE)
-    truthValue : TRUE_    (25)
-
-    $end reduce 25
-    OR reduce 25
-    ')' reduce 25
-    AND reduce 25
-    . error
-
-state 86 (entry on UNKNOWN)
-    truthValue : UNKNOWN_    (27)
-
-    $end reduce 27
-    OR reduce 27
-    ')' reduce 27
-    AND reduce 27
-    . error
-
-state 87 (entry on booleanFactor)
-    booleanTerm : booleanTerm AND booleanFactor_    (19)
-
-    $end reduce 19
-    OR reduce 19
-    ')' reduce 19
-    AND reduce 19
-    . error
-
-state 88 (entry on rowValueConstructor)
-    comparisonPredicate : rowValueConstructor compOp rowValueConstructor_    (36)
-
-    $end reduce 36
-    OR reduce 36
-    ')' reduce 36
-    IS reduce 36
-    AND reduce 36
-    . error
-
-state 89 (entry on '(')
-    rowValueConstructor : '('_rowValueConstructorList ')'    (44)
-    subquery : '('_prog ')'    (47)
-
-    SELECT shift 2
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    NULL shift 57
-    . error
-
-    prog goto 76
-    field goto 41
-    num goto 45
-    rowValueConstructorElement goto 103
-    rowValueConstructorList goto 78
-    string goto 51
-
-state 90 (entry on rowValueConstructor)
-    betweenPredicate : rowValueConstructor BETWEEN rowValueConstructor_AND rowValueConstructor    (37)
-
-    AND shift 104
-    . error
-
-state 91 (entry on NULL)
-    nullPredicate : rowValueConstructor IS NULL_    (40)
-
-    $end reduce 40
-    OR reduce 40
-    ')' reduce 40
-    IS reduce 40
-    AND reduce 40
-    . error
-
-state 92 (entry on '=')
-    compOp : '!' '='_    (55)
-
-    IDENTIFIER reduce 55
-    NUMBER reduce 55
-    NULL reduce 55
-    '(' reduce 55
-    SINGLEQUOTE reduce 55
-    . error
-
-state 93 (entry on '=')
-    compOp : '<' '='_    (58)
-
-    IDENTIFIER reduce 58
-    NUMBER reduce 58
-    NULL reduce 58
-    '(' reduce 58
-    SINGLEQUOTE reduce 58
-    . error
-
-state 94 (entry on '>')
-    compOp : '<' '>'_    (56)
-
-    IDENTIFIER reduce 56
-    NUMBER reduce 56
-    NULL reduce 56
-    '(' reduce 56
-    SINGLEQUOTE reduce 56
-    . error
-
-state 95 (entry on '=')
-    compOp : '>' '='_    (60)
-
-    IDENTIFIER reduce 60
-    NUMBER reduce 60
-    NULL reduce 60
-    '(' reduce 60
-    SINGLEQUOTE reduce 60
-    . error
-
-state 96 (entry on booleanTerm)
-    booleanTerm : booleanTerm_AND booleanFactor    (19)
-    searchCondition : searchCondition OR booleanTerm_    (17)
-
-    AND shift 61
-    $end reduce 17
-    OR reduce 17
-    ')' reduce 17
-    . error
-
-state 97 (entry on ')')
-    inPredicate : IN '(' ')'_    (38)
-
-    $end reduce 38
-    OR reduce 38
-    ')' reduce 38
-    IS reduce 38
-    AND reduce 38
-    . error
-
-state 98 (entry on ')')
-    subquery : '(' prog ')'_    (47)
+state 41 (entry on rowSubquery)
+    rowValueConstructor : rowSubquery_    (47)
 
     '>' reduce 47
     OR reduce 47
@@ -1132,94 +442,764 @@ state 98 (entry on ')')
     AND reduce 47
     . error
 
-state 99 (entry on ')')
-    rowValueConstructor : '(' rowValueConstructorList ')'_    (44)
+state 42 (entry on rowValueConstructor)
+    betweenPredicate : rowValueConstructor_BETWEEN rowValueConstructor AND rowValueConstructor    (39)
+    comparisonPredicate : rowValueConstructor_compOp rowValueConstructor    (38)
+    nullPredicate : rowValueConstructor_IS NULL    (42)
 
-    '>' reduce 44
-    OR reduce 44
-    '=' reduce 44
-    '<' reduce 44
-    BETWEEN reduce 44
-    ')' reduce 44
-    '!' reduce 44
-    IS reduce 44
+    BETWEEN shift 64
+    IS shift 65
+    '!' shift 66
+    '<' shift 67
+    '=' shift 68
+    '>' shift 69
+    . error
+
+    compOp goto 63
+
+state 43 (entry on rowValueConstructorElement)
+    rowValueConstructor : rowValueConstructorElement_    (45)
+
+    '>' reduce 45
+    OR reduce 45
+    '=' reduce 45
+    '<' reduce 45
+    BETWEEN reduce 45
+    ')' reduce 45
+    '!' reduce 45
+    IS reduce 45
+    $end reduce 45
+    AND reduce 45
+    . error
+
+state 44 (entry on searchCondition)
+    searchCondition : searchCondition_OR booleanTerm    (19)
+    whereclause : WHERE searchCondition_    (16)
+
+    OR shift 70
+    $end reduce 16
+    ')' reduce 16
+    . error
+
+state 45 (entry on string)
+    rowValueConstructorElement : string_    (52)
+
+    '>' reduce 52
+    OR reduce 52
+    '<' reduce 52
+    ',' reduce 52
+    BETWEEN reduce 52
+    ')' reduce 52
+    '!' reduce 52
+    '=' reduce 52
+    IS reduce 52
+    $end reduce 52
+    AND reduce 52
+    . error
+
+state 46 (entry on subquery)
+    rowSubquery : subquery_    (48)
+
+    '>' reduce 48
+    OR reduce 48
+    '=' reduce 48
+    '<' reduce 48
+    BETWEEN reduce 48
+    ')' reduce 48
+    '!' reduce 48
+    IS reduce 48
+    $end reduce 48
+    AND reduce 48
+    . error
+
+state 47 (entry on EXISTS)
+    existsPredicate : EXISTS_tableSubquery    (43)
+
+    '(' shift 20
+    . error
+
+    subquery goto 71
+    tableSubquery goto 72
+
+state 48 (entry on IN)
+    inPredicate : IN_'(' ')'    (40)
+
+    '(' shift 73
+    . error
+
+state 49 (entry on LIKE)
+    likePredicate : LIKE_string    (41)
+
+    SINGLEQUOTE shift 14
+    . error
+
+    string goto 74
+
+state 50 (entry on NOT)
+    booleanFactor : NOT_booleanTest    (23)
+
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    EXISTS shift 47
+    IN shift 48
+    LIKE shift 49
+    NULL shift 51
+    '(' shift 52
+    . error
+
+    betweenPredicate goto 28
+    booleanPrimary goto 30
+    booleanTest goto 75
+    comparisonPredicate goto 33
+    existsPredicate goto 34
+    field goto 35
+    inPredicate goto 36
+    likePredicate goto 37
+    nullPredicate goto 38
+    num goto 39
+    predicate goto 40
+    rowSubquery goto 41
+    rowValueConstructor goto 42
+    rowValueConstructorElement goto 43
+    string goto 45
+    subquery goto 46
+
+state 51 (entry on NULL)
+    rowValueConstructorElement : NULL_    (55)
+
+    '>' reduce 55
+    OR reduce 55
+    '<' reduce 55
+    ',' reduce 55
+    BETWEEN reduce 55
+    ')' reduce 55
+    '!' reduce 55
+    '=' reduce 55
+    IS reduce 55
+    $end reduce 55
+    AND reduce 55
+    . error
+
+state 52 (entry on '(')
+    booleanPrimary : '('_searchCondition ')'    (31)
+    rowValueConstructor : '('_rowValueConstructorList ')'    (46)
+    subquery : '('_sql ')'    (49)
+
+    SELECT shift 4
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    EXISTS shift 47
+    IN shift 48
+    LIKE shift 49
+    NOT shift 50
+    NULL shift 51
+    '(' shift 52
+    . error
+
+    betweenPredicate goto 28
+    booleanFactor goto 29
+    booleanPrimary goto 30
+    booleanTerm goto 31
+    booleanTest goto 32
+    comparisonPredicate goto 33
+    existsPredicate goto 34
+    field goto 35
+    inPredicate goto 36
+    likePredicate goto 37
+    nullPredicate goto 38
+    num goto 39
+    predicate goto 40
+    rowSubquery goto 41
+    rowValueConstructor goto 42
+    rowValueConstructorElement goto 76
+    rowValueConstructorList goto 77
+    searchCondition goto 78
+    selectclause goto 2
+    sql goto 55
+    string goto 45
+    subquery goto 46
+
+state 53 (entry on tablealias)
+    fromclause : FROM subquery tablealias_    (6)
+
+    $end reduce 6
+    ')' reduce 6
+    WHERE reduce 6
+    . error
+
+state 54 (entry on IDENTIFIER)
+    tablealias : IDENTIFIER_    (7)
+
+    $end reduce 7
+    ')' reduce 7
+    WHERE reduce 7
+    . error
+
+state 55 (entry on sql)
+    subquery : '(' sql_')'    (49)
+
+    ')' shift 79
+    . error
+
+state 56 (entry on column)
+    columns : columns ',' column_    (8)
+
+    ',' reduce 8
+    FROM reduce 8
+    . error
+
+state 57 (entry on columnalias)
+    asclause : AS columnalias_    (13)
+
+    ',' reduce 13
+    FROM reduce 13
+    . error
+
+state 58 (entry on IDENTIFIER)
+    columnalias : IDENTIFIER_    (15)
+
+    ',' reduce 15
+    FROM reduce 15
+    . error
+
+state 59 (entry on SINGLEQUOTE)
+    string : SINGLEQUOTE IDENTIFIER SINGLEQUOTE_    (65)
+
+    '>' reduce 65
+    OR reduce 65
+    '<' reduce 65
+    ',' reduce 65
+    FROM reduce 65
+    BETWEEN reduce 65
+    ')' reduce 65
+    '!' reduce 65
+    IS reduce 65
+    '=' reduce 65
+    AS reduce 65
+    $end reduce 65
+    AND reduce 65
+    . error
+
+state 60 (entry on SINGLEQUOTE)
+    string : SINGLEQUOTE NUMBER SINGLEQUOTE_    (66)
+
+    '>' reduce 66
+    OR reduce 66
+    '<' reduce 66
+    ',' reduce 66
+    FROM reduce 66
+    BETWEEN reduce 66
+    ')' reduce 66
+    '!' reduce 66
+    IS reduce 66
+    '=' reduce 66
+    AS reduce 66
+    $end reduce 66
+    AND reduce 66
+    . error
+
+state 61 (entry on IS)
+    booleanTest : booleanPrimary IS_truthValue    (25)
+    booleanTest : booleanPrimary IS_NOT truthValue    (26)
+
+    FALSE shift 81
+    NOT shift 82
+    TRUE shift 83
+    UNKNOWN shift 84
+    . error
+
+    truthValue goto 80
+
+state 62 (entry on AND)
+    booleanTerm : booleanTerm AND_booleanFactor    (21)
+
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    EXISTS shift 47
+    IN shift 48
+    LIKE shift 49
+    NOT shift 50
+    NULL shift 51
+    '(' shift 52
+    . error
+
+    betweenPredicate goto 28
+    booleanFactor goto 85
+    booleanPrimary goto 30
+    booleanTest goto 32
+    comparisonPredicate goto 33
+    existsPredicate goto 34
+    field goto 35
+    inPredicate goto 36
+    likePredicate goto 37
+    nullPredicate goto 38
+    num goto 39
+    predicate goto 40
+    rowSubquery goto 41
+    rowValueConstructor goto 42
+    rowValueConstructorElement goto 43
+    string goto 45
+    subquery goto 46
+
+state 63 (entry on compOp)
+    comparisonPredicate : rowValueConstructor compOp_rowValueConstructor    (38)
+
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    NULL shift 51
+    '(' shift 87
+    . error
+
+    field goto 35
+    num goto 39
+    rowSubquery goto 41
+    rowValueConstructor goto 86
+    rowValueConstructorElement goto 43
+    string goto 45
+    subquery goto 46
+
+state 64 (entry on BETWEEN)
+    betweenPredicate : rowValueConstructor BETWEEN_rowValueConstructor AND rowValueConstructor    (39)
+
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    NULL shift 51
+    '(' shift 87
+    . error
+
+    field goto 35
+    num goto 39
+    rowSubquery goto 41
+    rowValueConstructor goto 88
+    rowValueConstructorElement goto 43
+    string goto 45
+    subquery goto 46
+
+state 65 (entry on IS)
+    nullPredicate : rowValueConstructor IS_NULL    (42)
+
+    NULL shift 89
+    . error
+
+state 66 (entry on '!')
+    compOp : '!'_'='    (57)
+
+    '=' shift 90
+    . error
+
+state 67 (entry on '<')
+    compOp : '<'_'>'    (58)
+    compOp : '<'_    (59)
+    compOp : '<'_'='    (60)
+
+    '=' shift 91
+    '>' shift 92
+    IDENTIFIER reduce 59
+    NUMBER reduce 59
+    NULL reduce 59
+    '(' reduce 59
+    SINGLEQUOTE reduce 59
+    . error
+
+state 68 (entry on '=')
+    compOp : '='_    (56)
+
+    IDENTIFIER reduce 56
+    NUMBER reduce 56
+    NULL reduce 56
+    '(' reduce 56
+    SINGLEQUOTE reduce 56
+    . error
+
+state 69 (entry on '>')
+    compOp : '>'_    (61)
+    compOp : '>'_'='    (62)
+
+    '=' shift 93
+    IDENTIFIER reduce 61
+    NUMBER reduce 61
+    NULL reduce 61
+    '(' reduce 61
+    SINGLEQUOTE reduce 61
+    . error
+
+state 70 (entry on OR)
+    searchCondition : searchCondition OR_booleanTerm    (19)
+
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    EXISTS shift 47
+    IN shift 48
+    LIKE shift 49
+    NOT shift 50
+    NULL shift 51
+    '(' shift 52
+    . error
+
+    betweenPredicate goto 28
+    booleanFactor goto 29
+    booleanPrimary goto 30
+    booleanTerm goto 94
+    booleanTest goto 32
+    comparisonPredicate goto 33
+    existsPredicate goto 34
+    field goto 35
+    inPredicate goto 36
+    likePredicate goto 37
+    nullPredicate goto 38
+    num goto 39
+    predicate goto 40
+    rowSubquery goto 41
+    rowValueConstructor goto 42
+    rowValueConstructorElement goto 43
+    string goto 45
+    subquery goto 46
+
+state 71 (entry on subquery)
+    tableSubquery : subquery_    (44)
+
     $end reduce 44
+    OR reduce 44
+    ')' reduce 44
+    IS reduce 44
     AND reduce 44
     . error
 
-state 100 (entry on ',')
-    rowValueConstructorList : rowValueConstructorList ','_rowValueConstructorElement    (49)
+state 72 (entry on tableSubquery)
+    existsPredicate : EXISTS tableSubquery_    (43)
 
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    NULL shift 57
+    $end reduce 43
+    OR reduce 43
+    ')' reduce 43
+    IS reduce 43
+    AND reduce 43
     . error
 
-    field goto 41
-    num goto 45
-    rowValueConstructorElement goto 105
-    string goto 51
+state 73 (entry on '(')
+    inPredicate : IN '('_')'    (40)
 
-state 101 (entry on ')')
-    booleanPrimary : '(' searchCondition ')'_    (29)
+    ')' shift 95
+    . error
+
+state 74 (entry on string)
+    likePredicate : LIKE string_    (41)
+
+    $end reduce 41
+    OR reduce 41
+    ')' reduce 41
+    IS reduce 41
+    AND reduce 41
+    . error
+
+state 75 (entry on booleanTest)
+    booleanFactor : NOT booleanTest_    (23)
+
+    $end reduce 23
+    OR reduce 23
+    ')' reduce 23
+    AND reduce 23
+    . error
+
+state 76 (entry on rowValueConstructorElement)
+    rowValueConstructor : rowValueConstructorElement_    (45)
+    rowValueConstructorList : rowValueConstructorElement_    (50)
+
+    '>' reduce 45
+    '=' reduce 45
+    '<' reduce 45
+    BETWEEN reduce 45
+    '!' reduce 45
+    IS reduce 45
+    ',' reduce 50
+    ')' reduce 50
+    . error
+
+state 77 (entry on rowValueConstructorList)
+    rowValueConstructor : '(' rowValueConstructorList_')'    (46)
+    rowValueConstructorList : rowValueConstructorList_',' rowValueConstructorElement    (51)
+
+    ')' shift 96
+    ',' shift 97
+    . error
+
+state 78 (entry on searchCondition)
+    booleanPrimary : '(' searchCondition_')'    (31)
+    searchCondition : searchCondition_OR booleanTerm    (19)
+
+    OR shift 70
+    ')' shift 98
+    . error
+
+state 79 (entry on ')')
+    subquery : '(' sql ')'_    (49)
+
+    OR reduce 49
+    IDENTIFIER reduce 49
+    '=' reduce 49
+    '<' reduce 49
+    BETWEEN reduce 49
+    ')' reduce 49
+    '!' reduce 49
+    IS reduce 49
+    '>' reduce 49
+    $end reduce 49
+    AND reduce 49
+    . error
+
+state 80 (entry on truthValue)
+    booleanTest : booleanPrimary IS truthValue_    (25)
+
+    $end reduce 25
+    OR reduce 25
+    ')' reduce 25
+    AND reduce 25
+    . error
+
+state 81 (entry on FALSE)
+    truthValue : FALSE_    (28)
+
+    $end reduce 28
+    OR reduce 28
+    ')' reduce 28
+    AND reduce 28
+    . error
+
+state 82 (entry on NOT)
+    booleanTest : booleanPrimary IS NOT_truthValue    (26)
+
+    FALSE shift 81
+    TRUE shift 83
+    UNKNOWN shift 84
+    . error
+
+    truthValue goto 99
+
+state 83 (entry on TRUE)
+    truthValue : TRUE_    (27)
+
+    $end reduce 27
+    OR reduce 27
+    ')' reduce 27
+    AND reduce 27
+    . error
+
+state 84 (entry on UNKNOWN)
+    truthValue : UNKNOWN_    (29)
 
     $end reduce 29
     OR reduce 29
     ')' reduce 29
-    IS reduce 29
     AND reduce 29
     . error
 
-state 102 (entry on truthValue)
-    booleanTest : booleanPrimary IS NOT truthValue_    (24)
+state 85 (entry on booleanFactor)
+    booleanTerm : booleanTerm AND booleanFactor_    (21)
 
-    $end reduce 24
-    OR reduce 24
-    ')' reduce 24
-    AND reduce 24
+    $end reduce 21
+    OR reduce 21
+    ')' reduce 21
+    AND reduce 21
     . error
 
-state 103 (entry on rowValueConstructorElement)
-    rowValueConstructorList : rowValueConstructorElement_    (48)
+state 86 (entry on rowValueConstructor)
+    comparisonPredicate : rowValueConstructor compOp rowValueConstructor_    (38)
 
-    ',' reduce 48
-    ')' reduce 48
+    $end reduce 38
+    OR reduce 38
+    ')' reduce 38
+    IS reduce 38
+    AND reduce 38
     . error
 
-state 104 (entry on AND)
-    betweenPredicate : rowValueConstructor BETWEEN rowValueConstructor AND_rowValueConstructor    (37)
+state 87 (entry on '(')
+    rowValueConstructor : '('_rowValueConstructorList ')'    (46)
+    subquery : '('_sql ')'    (49)
 
-    IDENTIFIER shift 8
-    NUMBER shift 9
-    SINGLEQUOTE shift 10
-    NULL shift 57
-    '(' shift 89
+    SELECT shift 4
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    NULL shift 51
     . error
 
-    field goto 41
-    num goto 45
-    rowSubquery goto 47
-    rowValueConstructor goto 106
-    rowValueConstructorElement goto 49
-    string goto 51
-    subquery goto 52
+    field goto 35
+    num goto 39
+    rowValueConstructorElement goto 100
+    rowValueConstructorList goto 77
+    selectclause goto 2
+    sql goto 55
+    string goto 45
 
-state 105 (entry on rowValueConstructorElement)
-    rowValueConstructorList : rowValueConstructorList ',' rowValueConstructorElement_    (49)
+state 88 (entry on rowValueConstructor)
+    betweenPredicate : rowValueConstructor BETWEEN rowValueConstructor_AND rowValueConstructor    (39)
 
-    ',' reduce 49
-    ')' reduce 49
+    AND shift 101
     . error
 
-state 106 (entry on rowValueConstructor)
-    betweenPredicate : rowValueConstructor BETWEEN rowValueConstructor AND rowValueConstructor_    (37)
+state 89 (entry on NULL)
+    nullPredicate : rowValueConstructor IS NULL_    (42)
 
-    $end reduce 37
-    OR reduce 37
-    ')' reduce 37
-    IS reduce 37
-    AND reduce 37
+    $end reduce 42
+    OR reduce 42
+    ')' reduce 42
+    IS reduce 42
+    AND reduce 42
+    . error
+
+state 90 (entry on '=')
+    compOp : '!' '='_    (57)
+
+    IDENTIFIER reduce 57
+    NUMBER reduce 57
+    NULL reduce 57
+    '(' reduce 57
+    SINGLEQUOTE reduce 57
+    . error
+
+state 91 (entry on '=')
+    compOp : '<' '='_    (60)
+
+    IDENTIFIER reduce 60
+    NUMBER reduce 60
+    NULL reduce 60
+    '(' reduce 60
+    SINGLEQUOTE reduce 60
+    . error
+
+state 92 (entry on '>')
+    compOp : '<' '>'_    (58)
+
+    IDENTIFIER reduce 58
+    NUMBER reduce 58
+    NULL reduce 58
+    '(' reduce 58
+    SINGLEQUOTE reduce 58
+    . error
+
+state 93 (entry on '=')
+    compOp : '>' '='_    (62)
+
+    IDENTIFIER reduce 62
+    NUMBER reduce 62
+    NULL reduce 62
+    '(' reduce 62
+    SINGLEQUOTE reduce 62
+    . error
+
+state 94 (entry on booleanTerm)
+    booleanTerm : booleanTerm_AND booleanFactor    (21)
+    searchCondition : searchCondition OR booleanTerm_    (19)
+
+    AND shift 62
+    $end reduce 19
+    OR reduce 19
+    ')' reduce 19
+    . error
+
+state 95 (entry on ')')
+    inPredicate : IN '(' ')'_    (40)
+
+    $end reduce 40
+    OR reduce 40
+    ')' reduce 40
+    IS reduce 40
+    AND reduce 40
+    . error
+
+state 96 (entry on ')')
+    rowValueConstructor : '(' rowValueConstructorList ')'_    (46)
+
+    '>' reduce 46
+    OR reduce 46
+    '=' reduce 46
+    '<' reduce 46
+    BETWEEN reduce 46
+    ')' reduce 46
+    '!' reduce 46
+    IS reduce 46
+    $end reduce 46
+    AND reduce 46
+    . error
+
+state 97 (entry on ',')
+    rowValueConstructorList : rowValueConstructorList ','_rowValueConstructorElement    (51)
+
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    NULL shift 51
+    . error
+
+    field goto 35
+    num goto 39
+    rowValueConstructorElement goto 102
+    string goto 45
+
+state 98 (entry on ')')
+    booleanPrimary : '(' searchCondition ')'_    (31)
+
+    $end reduce 31
+    OR reduce 31
+    ')' reduce 31
+    IS reduce 31
+    AND reduce 31
+    . error
+
+state 99 (entry on truthValue)
+    booleanTest : booleanPrimary IS NOT truthValue_    (26)
+
+    $end reduce 26
+    OR reduce 26
+    ')' reduce 26
+    AND reduce 26
+    . error
+
+state 100 (entry on rowValueConstructorElement)
+    rowValueConstructorList : rowValueConstructorElement_    (50)
+
+    ',' reduce 50
+    ')' reduce 50
+    . error
+
+state 101 (entry on AND)
+    betweenPredicate : rowValueConstructor BETWEEN rowValueConstructor AND_rowValueConstructor    (39)
+
+    IDENTIFIER shift 12
+    NUMBER shift 13
+    SINGLEQUOTE shift 14
+    NULL shift 51
+    '(' shift 87
+    . error
+
+    field goto 35
+    num goto 39
+    rowSubquery goto 41
+    rowValueConstructor goto 103
+    rowValueConstructorElement goto 43
+    string goto 45
+    subquery goto 46
+
+state 102 (entry on rowValueConstructorElement)
+    rowValueConstructorList : rowValueConstructorList ',' rowValueConstructorElement_    (51)
+
+    ',' reduce 51
+    ')' reduce 51
+    . error
+
+state 103 (entry on rowValueConstructor)
+    betweenPredicate : rowValueConstructor BETWEEN rowValueConstructor AND rowValueConstructor_    (39)
+
+    $end reduce 39
+    OR reduce 39
+    ')' reduce 39
+    IS reduce 39
+    AND reduce 39
     . error
 
 First sets:
@@ -1236,6 +1216,7 @@ First sets:
  First(comparisonPredicate): {IDENTIFIER, NULL, NUMBER, SINGLEQUOTE, '('}
  First(existsPredicate): {EXISTS}
  First(field): {IDENTIFIER}
+ First(fromclause): {FROM}
  First(inPredicate): {IN}
  First(likePredicate): {LIKE}
  First(nullPredicate): {IDENTIFIER, NULL, NUMBER, SINGLEQUOTE, '('}
@@ -1247,16 +1228,17 @@ First sets:
  First(rowValueConstructorElement): {IDENTIFIER, NULL, NUMBER, SINGLEQUOTE}
  First(rowValueConstructorList): {IDENTIFIER, NULL, NUMBER, SINGLEQUOTE}
  First(searchCondition): {EXISTS, IDENTIFIER, IN, LIKE, NOT, NULL, NUMBER, SINGLEQUOTE, '('}
+ First(selectclause): {SELECT}
+ First(sql): {SELECT}
  First(string): {SINGLEQUOTE}
  First(subquery): {'('}
- First(table): {IDENTIFIER, '('}
  First(tableSubquery): {'('}
  First(tablealias): {IDENTIFIER}
  First(truthValue): {FALSE, TRUE, UNKNOWN}
  First(whereclause): {WHERE}
 
 Follow sets:
- Follow(prog): {')', $end}
+ Follow(prog): {$end}
  Follow(betweenPredicate): {AND, IS, OR, ')', $end}
  Follow(booleanFactor): {AND, OR, ')', $end}
  Follow(booleanPrimary): {AND, IS, OR, ')', $end}
@@ -1269,6 +1251,7 @@ Follow sets:
  Follow(comparisonPredicate): {AND, IS, OR, ')', $end}
  Follow(existsPredicate): {AND, IS, OR, ')', $end}
  Follow(field): {AND, AS, BETWEEN, FROM, IS, OR, '!', ')', ',', '<', '=', '>', $end}
+ Follow(fromclause): {WHERE, ')', $end}
  Follow(inPredicate): {AND, IS, OR, ')', $end}
  Follow(likePredicate): {AND, IS, OR, ')', $end}
  Follow(nullPredicate): {AND, IS, OR, ')', $end}
@@ -1280,9 +1263,10 @@ Follow sets:
  Follow(rowValueConstructorElement): {AND, BETWEEN, IS, OR, '!', ')', ',', '<', '=', '>', $end}
  Follow(rowValueConstructorList): {')', ','}
  Follow(searchCondition): {OR, ')', $end}
+ Follow(selectclause): {FROM}
+ Follow(sql): {')', $end}
  Follow(string): {AND, AS, BETWEEN, FROM, IS, OR, '!', ')', ',', '<', '=', '>', $end}
- Follow(subquery): {AND, BETWEEN, IS, OR, '!', ')', '<', '=', '>', $end}
- Follow(table): {WHERE, ')', $end}
+ Follow(subquery): {AND, BETWEEN, IDENTIFIER, IS, OR, '!', ')', '<', '=', '>', $end}
  Follow(tableSubquery): {AND, IS, OR, ')', $end}
  Follow(tablealias): {WHERE, ')', $end}
  Follow(truthValue): {AND, OR, ')', $end}
@@ -1290,6 +1274,6 @@ Follow sets:
 
 Nullable = {asclause, whereclause}
 
-29 terminals, 31 nonterminals;
-64 grammar rules, 107 states;
+29 terminals, 33 nonterminals;
+66 grammar rules, 104 states;
 0 shift/reduce and 0 reduce/reduce conflicts reported.

@@ -5,13 +5,19 @@
 
 %%
 
-prog : SELECT '*' FROM table whereclause
-     | SELECT columns FROM table whereclause
+prog : sql                                   { $$ = new FinalSqlClause($1); }
      ;
 
-table : IDENTIFIER
-      | '(' prog ')' tablealias
-      ;
+sql  : selectclause fromclause whereclause   { $$ = new Query($1,$2,$3); }
+     ;
+
+selectclause : SELECT '*'                 { $$ = new DirectSelectClause($1); }
+             | SELECT columns             { $$ = new DirectSelectClause($1); }
+             ;
+
+fromclause : FROM IDENTIFIER
+           | FROM subquery tablealias
+           ;
 
 tablealias : IDENTIFIER
            ;
@@ -97,7 +103,7 @@ rowValueConstructor    : rowValueConstructorElement
 rowSubquery : subquery
             ;
 
-subquery : '(' prog ')'
+subquery : '(' sql ')'
          ;
 
 rowValueConstructorList : rowValueConstructorElement
