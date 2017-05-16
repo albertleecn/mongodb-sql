@@ -44,7 +44,7 @@ columnalias : IDENTIFIER
       ;
 
 whereclause : WHERE searchCondition  { $$ = new WhereClauseToCriteria($2); }
-		|
+		|                            { $$ = new EmptyWhereClause();}
 		;
 
 searchCondition : booleanTerm
