@@ -7,6 +7,10 @@ class DirectFromClause extends AbstractFromClause {
 
     private String tableName;
 
+    DirectFromClause(Object tableName){
+        this.tableName = (String)tableName;
+    }
+
     public String getTableName() {
         return tableName;
     }

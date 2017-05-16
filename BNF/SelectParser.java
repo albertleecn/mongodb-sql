@@ -1,6 +1,9 @@
-// Output created by jacc on Mon May 15 10:14:13 CST 2017
+// Output created by jacc on Tue May 16 14:12:09 CST 2017
 
-package xxx.xxx.xxx;
+package cn.boxfish.jack.mongoparser;
+
+import java.sql.*;
+import cn.boxfish.jack.mongoparser.query.Comparison;
 
 class SelectParser implements SelectTokens {
     private int yyss = 100;
@@ -1156,7 +1159,7 @@ class SelectParser implements SelectTokens {
                         case NULL:
                         case '(':
                         case SINGLEQUOTE:
-                            yyn = yyr56();
+                            yyn = yyr54();
                             continue;
                     }
                     yyn = 211;
@@ -1554,7 +1557,7 @@ class SelectParser implements SelectTokens {
                         case NULL:
                         case '(':
                         case SINGLEQUOTE:
-                            yyn = yyr57();
+                            yyn = yyr55();
                             continue;
                     }
                     yyn = 211;
@@ -1576,7 +1579,7 @@ class SelectParser implements SelectTokens {
                         case NULL:
                         case '(':
                         case SINGLEQUOTE:
-                            yyn = yyr60();
+                            yyn = yyr58();
                             continue;
                     }
                     yyn = 211;
@@ -1598,7 +1601,7 @@ class SelectParser implements SelectTokens {
                         case NULL:
                         case '(':
                         case SINGLEQUOTE:
-                            yyn = yyr58();
+                            yyn = yyr56();
                             continue;
                     }
                     yyn = 211;
@@ -1620,7 +1623,7 @@ class SelectParser implements SelectTokens {
                         case NULL:
                         case '(':
                         case SINGLEQUOTE:
-                            yyn = yyr62();
+                            yyn = yyr60();
                             continue;
                     }
                     yyn = 211;
@@ -1755,7 +1758,7 @@ class SelectParser implements SelectTokens {
                     switch (yytok) {
                         case ',':
                         case ')':
-                            yyn = yyr50();
+                            yyn = yyr48();
                             continue;
                     }
                     yyn = 211;
@@ -1800,7 +1803,7 @@ class SelectParser implements SelectTokens {
                     switch (yytok) {
                         case ',':
                         case ')':
-                            yyn = yyr51();
+                            yyn = yyr49();
                             continue;
                     }
                     yyn = 211;
@@ -1925,7 +1928,7 @@ class SelectParser implements SelectTokens {
             case IS:
             case ENDINPUT:
             case AND:
-                return yyr54();
+                return yyr52();
         }
         return 211;
     }
@@ -1943,7 +1946,7 @@ class SelectParser implements SelectTokens {
             case IS:
             case ENDINPUT:
             case AND:
-                return yyr53();
+                return yyr51();
         }
         return 211;
     }
@@ -2013,7 +2016,7 @@ class SelectParser implements SelectTokens {
             case IS:
             case ENDINPUT:
             case AND:
-                return yyr52();
+                return yyr50();
         }
         return 211;
     }
@@ -2030,7 +2033,7 @@ class SelectParser implements SelectTokens {
             case IS:
             case ENDINPUT:
             case AND:
-                return yyr48();
+                return yyr61();
         }
         return 211;
     }
@@ -2070,7 +2073,7 @@ class SelectParser implements SelectTokens {
             case IS:
             case ENDINPUT:
             case AND:
-                return yyr55();
+                return yyr53();
         }
         return 211;
     }
@@ -2176,7 +2179,7 @@ class SelectParser implements SelectTokens {
             case NULL:
             case '(':
             case SINGLEQUOTE:
-                return yyr59();
+                return yyr57();
         }
         return 211;
     }
@@ -2190,7 +2193,7 @@ class SelectParser implements SelectTokens {
             case NULL:
             case '(':
             case SINGLEQUOTE:
-                return yyr61();
+                return yyr59();
         }
         return 211;
     }
@@ -2230,7 +2233,7 @@ class SelectParser implements SelectTokens {
                 return yyr45();
             case ',':
             case ')':
-                return yyr50();
+                return yyr48();
         }
         return 211;
     }
@@ -2248,7 +2251,7 @@ class SelectParser implements SelectTokens {
             case '>':
             case ENDINPUT:
             case AND:
-                return yyr49();
+                return yyr62();
         }
         return 211;
     }
@@ -2271,7 +2274,7 @@ class SelectParser implements SelectTokens {
     }
 
     private int yyr1() { // prog : sql
-        { yyrv = new FinalSqlClause(yysv[yysp-1]); }
+        { rs=((MongoSqlQuery)yysv[yysp-1]).execute(); }
         yysv[yysp-=1] = yyrv;
         return 1;
     }
@@ -2384,43 +2387,51 @@ class SelectParser implements SelectTokens {
         return 8;
     }
 
-    private int yyr56() { // compOp : '='
-        yysp -= 1;
+    private int yyr54() { // compOp : '='
+        {yyrv = new CompOp("EQ");}
+        yysv[yysp-=1] = yyrv;
         return 63;
     }
 
-    private int yyr57() { // compOp : '!' '='
-        yysp -= 2;
+    private int yyr55() { // compOp : '!' '='
+        {yyrv = new CompOp("NE");}
+        yysv[yysp-=2] = yyrv;
         return 63;
     }
 
-    private int yyr58() { // compOp : '<' '>'
-        yysp -= 2;
+    private int yyr56() { // compOp : '<' '>'
+        {yyrv = new CompOp("NE");}
+        yysv[yysp-=2] = yyrv;
         return 63;
     }
 
-    private int yyr59() { // compOp : '<'
-        yysp -= 1;
+    private int yyr57() { // compOp : '<'
+        {yyrv = new CompOp("LT");}
+        yysv[yysp-=1] = yyrv;
         return 63;
     }
 
-    private int yyr60() { // compOp : '<' '='
-        yysp -= 2;
+    private int yyr58() { // compOp : '<' '='
+        {yyrv = new CompOp("LTE");}
+        yysv[yysp-=2] = yyrv;
         return 63;
     }
 
-    private int yyr61() { // compOp : '>'
-        yysp -= 1;
+    private int yyr59() { // compOp : '>'
+        {yyrv = new CompOp("GT");}
+        yysv[yysp-=1] = yyrv;
         return 63;
     }
 
-    private int yyr62() { // compOp : '>' '='
-        yysp -= 2;
+    private int yyr60() { // compOp : '>' '='
+        {yyrv = new CompOp("GTE");}
+        yysv[yysp-=2] = yyrv;
         return 63;
     }
 
     private int yyr38() { // comparisonPredicate : rowValueConstructor compOp rowValueConstructor
-        yysp -= 3;
+        {yyrv = new Comparison(yysv[yysp-3],yysv[yysp-2],yysv[yysp-1]);}
+        yysv[yysp-=3] = yyrv;
         return 33;
     }
 
@@ -2430,7 +2441,8 @@ class SelectParser implements SelectTokens {
     }
 
     private int yyr63() { // field : IDENTIFIER
-        yysp -= 1;
+        { yyrv = new Field(yysv[yysp-1]);}
+        yysv[yysp-=1] = yyrv;
         switch (yyst[yysp-1]) {
             case 21: return 9;
             case 4: return 9;
@@ -2439,7 +2451,8 @@ class SelectParser implements SelectTokens {
     }
 
     private int yyr5() { // fromclause : FROM IDENTIFIER
-        yysp -= 2;
+        { yyrv = new DirectFromClause(yysv[yysp-1]);}
+        yysv[yysp-=2] = yyrv;
         return 5;
     }
 
@@ -2519,13 +2532,14 @@ class SelectParser implements SelectTokens {
         }
     }
 
-    private int yyr48() { // rowSubquery : subquery
+    private int yyr61() { // rowSubquery : subquery
         yysp -= 1;
         return 41;
     }
 
     private int yyr45() { // rowValueConstructor : rowValueConstructorElement
-        yysp -= 1;
+        {yyrv = new RowValueConstructor(yysv[yysp-1]);}
+        yysv[yysp-=1] = yyrv;
         return yyprowValueConstructor();
     }
 
@@ -2548,22 +2562,25 @@ class SelectParser implements SelectTokens {
         }
     }
 
-    private int yyr52() { // rowValueConstructorElement : string
-        yysp -= 1;
+    private int yyr50() { // rowValueConstructorElement : string
+        {yyrv = new RowValueConstructorElement(yysv[yysp-1]);}
+        yysv[yysp-=1] = yyrv;
         return yyprowValueConstructorElement();
     }
 
-    private int yyr53() { // rowValueConstructorElement : num
-        yysp -= 1;
+    private int yyr51() { // rowValueConstructorElement : num
+        {yyrv = new RowValueConstructorElement(yysv[yysp-1]);}
+        yysv[yysp-=1] = yyrv;
         return yyprowValueConstructorElement();
     }
 
-    private int yyr54() { // rowValueConstructorElement : field
-        yysp -= 1;
+    private int yyr52() { // rowValueConstructorElement : field
+        {yyrv = new RowValueConstructorElement(yysv[yysp-1]);}
+        yysv[yysp-=1] = yyrv;
         return yyprowValueConstructorElement();
     }
 
-    private int yyr55() { // rowValueConstructorElement : NULL
+    private int yyr53() { // rowValueConstructorElement : NULL
         yysp -= 1;
         return yyprowValueConstructorElement();
     }
@@ -2577,12 +2594,12 @@ class SelectParser implements SelectTokens {
         }
     }
 
-    private int yyr50() { // rowValueConstructorList : rowValueConstructorElement
+    private int yyr48() { // rowValueConstructorList : rowValueConstructorElement
         yysp -= 1;
         return 77;
     }
 
-    private int yyr51() { // rowValueConstructorList : rowValueConstructorList ',' rowValueConstructorElement
+    private int yyr49() { // rowValueConstructorList : rowValueConstructorList ',' rowValueConstructorElement
         yysp -= 3;
         return 77;
     }
@@ -2605,19 +2622,19 @@ class SelectParser implements SelectTokens {
     }
 
     private int yyr3() { // selectclause : SELECT '*'
-        { yyrv = new DirectSelectClause(yysv[yysp-2]); }
+        { yyrv = new AsteriskSelectClause(); }
         yysv[yysp-=2] = yyrv;
         return 2;
     }
 
     private int yyr4() { // selectclause : SELECT columns
-        { yyrv = new DirectSelectClause(yysv[yysp-2]); }
+        { yyrv = new SpecificSelectClause(); }
         yysv[yysp-=2] = yyrv;
         return 2;
     }
 
     private int yyr2() { // sql : selectclause fromclause whereclause
-        { yyrv = new Query(yysv[yysp-3],yysv[yysp-2],yysv[yysp-1]); }
+        { yyrv = new MongoSqlQuery(yysv[yysp-3],yysv[yysp-2],yysv[yysp-1]); }
         yysv[yysp-=3] = yyrv;
         switch (yyst[yysp-1]) {
             case 0: return 3;
@@ -2626,12 +2643,14 @@ class SelectParser implements SelectTokens {
     }
 
     private int yyr65() { // string : SINGLEQUOTE IDENTIFIER SINGLEQUOTE
-        yysp -= 3;
+        {yyrv = new MongoString(yysv[yysp-2]);}
+        yysv[yysp-=3] = yyrv;
         return yypstring();
     }
 
     private int yyr66() { // string : SINGLEQUOTE NUMBER SINGLEQUOTE
-        yysp -= 3;
+        {yyrv = new MongoString(yysv[yysp-2]);}
+        yysv[yysp-=3] = yyrv;
         return yypstring();
     }
 
@@ -2644,7 +2663,7 @@ class SelectParser implements SelectTokens {
         }
     }
 
-    private int yyr49() { // subquery : '(' sql ')'
+    private int yyr62() { // subquery : '(' sql ')'
         yysp -= 3;
         switch (yyst[yysp-1]) {
             case 47: return 71;
@@ -2686,7 +2705,8 @@ class SelectParser implements SelectTokens {
     }
 
     private int yyr16() { // whereclause : WHERE searchCondition
-        yysp -= 2;
+        { yyrv = new WhereClauseToCriteria(yysv[yysp-1]); }
+        yysv[yysp-=2] = yyrv;
         return 16;
     }
 
@@ -2698,12 +2718,18 @@ class SelectParser implements SelectTokens {
     };
 
 
-  private SelectLexer lexer;
+  private TokenLexer lexer;
+  private ResultSet rs;
 
-  SelectParser(SelectLexer lexer) { this.lexer = lexer; }
+
+  public SelectParser(TokenLexer lexer) { this.lexer = lexer; }
 
   private void yyerror(String msg) {
     Main.error(yyerrno<0 ? msg : yyerrmsgs[yyerrno]);
+  }
+
+  public ResultSet getResultSet(){
+    return rs;
   }
 
 }

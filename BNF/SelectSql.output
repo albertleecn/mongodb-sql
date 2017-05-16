@@ -1,4 +1,4 @@
-// Output created by jacc on Mon May 15 10:14:13 CST 2017
+// Output created by jacc on Tue May 16 14:12:09 CST 2017
 
 state 0 (entry on prog)
     $accept : _prog $end
@@ -223,7 +223,7 @@ state 19 (entry on IDENTIFIER)
     . error
 
 state 20 (entry on '(')
-    subquery : '('_sql ')'    (49)
+    subquery : '('_sql ')'    (62)
 
     SELECT shift 4
     . error
@@ -356,19 +356,19 @@ state 34 (entry on existsPredicate)
     . error
 
 state 35 (entry on field)
-    rowValueConstructorElement : field_    (54)
+    rowValueConstructorElement : field_    (52)
 
-    '>' reduce 54
-    OR reduce 54
-    '<' reduce 54
-    ',' reduce 54
-    BETWEEN reduce 54
-    ')' reduce 54
-    '!' reduce 54
-    '=' reduce 54
-    IS reduce 54
-    $end reduce 54
-    AND reduce 54
+    '>' reduce 52
+    OR reduce 52
+    '<' reduce 52
+    ',' reduce 52
+    BETWEEN reduce 52
+    ')' reduce 52
+    '!' reduce 52
+    '=' reduce 52
+    IS reduce 52
+    $end reduce 52
+    AND reduce 52
     . error
 
 state 36 (entry on inPredicate)
@@ -402,19 +402,19 @@ state 38 (entry on nullPredicate)
     . error
 
 state 39 (entry on num)
-    rowValueConstructorElement : num_    (53)
+    rowValueConstructorElement : num_    (51)
 
-    '>' reduce 53
-    OR reduce 53
-    '<' reduce 53
-    ',' reduce 53
-    BETWEEN reduce 53
-    ')' reduce 53
-    '!' reduce 53
-    '=' reduce 53
-    IS reduce 53
-    $end reduce 53
-    AND reduce 53
+    '>' reduce 51
+    OR reduce 51
+    '<' reduce 51
+    ',' reduce 51
+    BETWEEN reduce 51
+    ')' reduce 51
+    '!' reduce 51
+    '=' reduce 51
+    IS reduce 51
+    $end reduce 51
+    AND reduce 51
     . error
 
 state 40 (entry on predicate)
@@ -482,34 +482,34 @@ state 44 (entry on searchCondition)
     . error
 
 state 45 (entry on string)
-    rowValueConstructorElement : string_    (52)
+    rowValueConstructorElement : string_    (50)
 
-    '>' reduce 52
-    OR reduce 52
-    '<' reduce 52
-    ',' reduce 52
-    BETWEEN reduce 52
-    ')' reduce 52
-    '!' reduce 52
-    '=' reduce 52
-    IS reduce 52
-    $end reduce 52
-    AND reduce 52
+    '>' reduce 50
+    OR reduce 50
+    '<' reduce 50
+    ',' reduce 50
+    BETWEEN reduce 50
+    ')' reduce 50
+    '!' reduce 50
+    '=' reduce 50
+    IS reduce 50
+    $end reduce 50
+    AND reduce 50
     . error
 
 state 46 (entry on subquery)
-    rowSubquery : subquery_    (48)
+    rowSubquery : subquery_    (61)
 
-    '>' reduce 48
-    OR reduce 48
-    '=' reduce 48
-    '<' reduce 48
-    BETWEEN reduce 48
-    ')' reduce 48
-    '!' reduce 48
-    IS reduce 48
-    $end reduce 48
-    AND reduce 48
+    '>' reduce 61
+    OR reduce 61
+    '=' reduce 61
+    '<' reduce 61
+    BETWEEN reduce 61
+    ')' reduce 61
+    '!' reduce 61
+    IS reduce 61
+    $end reduce 61
+    AND reduce 61
     . error
 
 state 47 (entry on EXISTS)
@@ -566,25 +566,25 @@ state 50 (entry on NOT)
     subquery goto 46
 
 state 51 (entry on NULL)
-    rowValueConstructorElement : NULL_    (55)
+    rowValueConstructorElement : NULL_    (53)
 
-    '>' reduce 55
-    OR reduce 55
-    '<' reduce 55
-    ',' reduce 55
-    BETWEEN reduce 55
-    ')' reduce 55
-    '!' reduce 55
-    '=' reduce 55
-    IS reduce 55
-    $end reduce 55
-    AND reduce 55
+    '>' reduce 53
+    OR reduce 53
+    '<' reduce 53
+    ',' reduce 53
+    BETWEEN reduce 53
+    ')' reduce 53
+    '!' reduce 53
+    '=' reduce 53
+    IS reduce 53
+    $end reduce 53
+    AND reduce 53
     . error
 
 state 52 (entry on '(')
     booleanPrimary : '('_searchCondition ')'    (31)
     rowValueConstructor : '('_rowValueConstructorList ')'    (46)
-    subquery : '('_sql ')'    (49)
+    subquery : '('_sql ')'    (62)
 
     SELECT shift 4
     IDENTIFIER shift 12
@@ -638,7 +638,7 @@ state 54 (entry on IDENTIFIER)
     . error
 
 state 55 (entry on sql)
-    subquery : '(' sql_')'    (49)
+    subquery : '(' sql_')'    (62)
 
     ')' shift 79
     . error
@@ -787,45 +787,45 @@ state 65 (entry on IS)
     . error
 
 state 66 (entry on '!')
-    compOp : '!'_'='    (57)
+    compOp : '!'_'='    (55)
 
     '=' shift 90
     . error
 
 state 67 (entry on '<')
-    compOp : '<'_'>'    (58)
-    compOp : '<'_    (59)
-    compOp : '<'_'='    (60)
+    compOp : '<'_'>'    (56)
+    compOp : '<'_    (57)
+    compOp : '<'_'='    (58)
 
     '=' shift 91
     '>' shift 92
+    IDENTIFIER reduce 57
+    NUMBER reduce 57
+    NULL reduce 57
+    '(' reduce 57
+    SINGLEQUOTE reduce 57
+    . error
+
+state 68 (entry on '=')
+    compOp : '='_    (54)
+
+    IDENTIFIER reduce 54
+    NUMBER reduce 54
+    NULL reduce 54
+    '(' reduce 54
+    SINGLEQUOTE reduce 54
+    . error
+
+state 69 (entry on '>')
+    compOp : '>'_    (59)
+    compOp : '>'_'='    (60)
+
+    '=' shift 93
     IDENTIFIER reduce 59
     NUMBER reduce 59
     NULL reduce 59
     '(' reduce 59
     SINGLEQUOTE reduce 59
-    . error
-
-state 68 (entry on '=')
-    compOp : '='_    (56)
-
-    IDENTIFIER reduce 56
-    NUMBER reduce 56
-    NULL reduce 56
-    '(' reduce 56
-    SINGLEQUOTE reduce 56
-    . error
-
-state 69 (entry on '>')
-    compOp : '>'_    (61)
-    compOp : '>'_'='    (62)
-
-    '=' shift 93
-    IDENTIFIER reduce 61
-    NUMBER reduce 61
-    NULL reduce 61
-    '(' reduce 61
-    SINGLEQUOTE reduce 61
     . error
 
 state 70 (entry on OR)
@@ -908,7 +908,7 @@ state 75 (entry on booleanTest)
 
 state 76 (entry on rowValueConstructorElement)
     rowValueConstructor : rowValueConstructorElement_    (45)
-    rowValueConstructorList : rowValueConstructorElement_    (50)
+    rowValueConstructorList : rowValueConstructorElement_    (48)
 
     '>' reduce 45
     '=' reduce 45
@@ -916,13 +916,13 @@ state 76 (entry on rowValueConstructorElement)
     BETWEEN reduce 45
     '!' reduce 45
     IS reduce 45
-    ',' reduce 50
-    ')' reduce 50
+    ',' reduce 48
+    ')' reduce 48
     . error
 
 state 77 (entry on rowValueConstructorList)
     rowValueConstructor : '(' rowValueConstructorList_')'    (46)
-    rowValueConstructorList : rowValueConstructorList_',' rowValueConstructorElement    (51)
+    rowValueConstructorList : rowValueConstructorList_',' rowValueConstructorElement    (49)
 
     ')' shift 96
     ',' shift 97
@@ -937,19 +937,19 @@ state 78 (entry on searchCondition)
     . error
 
 state 79 (entry on ')')
-    subquery : '(' sql ')'_    (49)
+    subquery : '(' sql ')'_    (62)
 
-    OR reduce 49
-    IDENTIFIER reduce 49
-    '=' reduce 49
-    '<' reduce 49
-    BETWEEN reduce 49
-    ')' reduce 49
-    '!' reduce 49
-    IS reduce 49
-    '>' reduce 49
-    $end reduce 49
-    AND reduce 49
+    OR reduce 62
+    IDENTIFIER reduce 62
+    '=' reduce 62
+    '<' reduce 62
+    BETWEEN reduce 62
+    ')' reduce 62
+    '!' reduce 62
+    IS reduce 62
+    '>' reduce 62
+    $end reduce 62
+    AND reduce 62
     . error
 
 state 80 (entry on truthValue)
@@ -1019,7 +1019,7 @@ state 86 (entry on rowValueConstructor)
 
 state 87 (entry on '(')
     rowValueConstructor : '('_rowValueConstructorList ')'    (46)
-    subquery : '('_sql ')'    (49)
+    subquery : '('_sql ')'    (62)
 
     SELECT shift 4
     IDENTIFIER shift 12
@@ -1053,27 +1053,17 @@ state 89 (entry on NULL)
     . error
 
 state 90 (entry on '=')
-    compOp : '!' '='_    (57)
+    compOp : '!' '='_    (55)
 
-    IDENTIFIER reduce 57
-    NUMBER reduce 57
-    NULL reduce 57
-    '(' reduce 57
-    SINGLEQUOTE reduce 57
+    IDENTIFIER reduce 55
+    NUMBER reduce 55
+    NULL reduce 55
+    '(' reduce 55
+    SINGLEQUOTE reduce 55
     . error
 
 state 91 (entry on '=')
-    compOp : '<' '='_    (60)
-
-    IDENTIFIER reduce 60
-    NUMBER reduce 60
-    NULL reduce 60
-    '(' reduce 60
-    SINGLEQUOTE reduce 60
-    . error
-
-state 92 (entry on '>')
-    compOp : '<' '>'_    (58)
+    compOp : '<' '='_    (58)
 
     IDENTIFIER reduce 58
     NUMBER reduce 58
@@ -1082,14 +1072,24 @@ state 92 (entry on '>')
     SINGLEQUOTE reduce 58
     . error
 
-state 93 (entry on '=')
-    compOp : '>' '='_    (62)
+state 92 (entry on '>')
+    compOp : '<' '>'_    (56)
 
-    IDENTIFIER reduce 62
-    NUMBER reduce 62
-    NULL reduce 62
-    '(' reduce 62
-    SINGLEQUOTE reduce 62
+    IDENTIFIER reduce 56
+    NUMBER reduce 56
+    NULL reduce 56
+    '(' reduce 56
+    SINGLEQUOTE reduce 56
+    . error
+
+state 93 (entry on '=')
+    compOp : '>' '='_    (60)
+
+    IDENTIFIER reduce 60
+    NUMBER reduce 60
+    NULL reduce 60
+    '(' reduce 60
+    SINGLEQUOTE reduce 60
     . error
 
 state 94 (entry on booleanTerm)
@@ -1128,7 +1128,7 @@ state 96 (entry on ')')
     . error
 
 state 97 (entry on ',')
-    rowValueConstructorList : rowValueConstructorList ','_rowValueConstructorElement    (51)
+    rowValueConstructorList : rowValueConstructorList ','_rowValueConstructorElement    (49)
 
     IDENTIFIER shift 12
     NUMBER shift 13
@@ -1161,10 +1161,10 @@ state 99 (entry on truthValue)
     . error
 
 state 100 (entry on rowValueConstructorElement)
-    rowValueConstructorList : rowValueConstructorElement_    (50)
+    rowValueConstructorList : rowValueConstructorElement_    (48)
 
-    ',' reduce 50
-    ')' reduce 50
+    ',' reduce 48
+    ')' reduce 48
     . error
 
 state 101 (entry on AND)
@@ -1186,10 +1186,10 @@ state 101 (entry on AND)
     subquery goto 46
 
 state 102 (entry on rowValueConstructorElement)
-    rowValueConstructorList : rowValueConstructorList ',' rowValueConstructorElement_    (51)
+    rowValueConstructorList : rowValueConstructorList ',' rowValueConstructorElement_    (49)
 
-    ',' reduce 51
-    ')' reduce 51
+    ',' reduce 49
+    ')' reduce 49
     . error
 
 state 103 (entry on rowValueConstructor)

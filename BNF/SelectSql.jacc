@@ -1,21 +1,26 @@
-%package   xxx.xxx.xxx
+%{
+import java.sql.*;
+import cn.boxfish.jack.mongoparser.query.Comparison;
+%}
+
+%package   cn.boxfish.jack.mongoparser
 %class     SelectParser
 %interface SelectTokens
 %token SELECT FROM WHERE IDENTIFIER NUMBER AND OR TRUE FALSE UNKNOWN NULL AS IN LIKE EXISTS IS NOT BETWEEN ',' '!' '(' ')' '<' '>' '=' SINGLEQUOTE '*'
 
 %%
 
-prog : sql                                   { $$ = new FinalSqlClause($1); }
+prog : sql                                   { rs=((MongoSqlQuery)$1).execute(); }
      ;
 
-sql  : selectclause fromclause whereclause   { $$ = new Query($1,$2,$3); }
+sql  : selectclause fromclause whereclause   { $$ = new MongoSqlQuery($1,$2,$3); }
      ;
 
-selectclause : SELECT '*'                 { $$ = new DirectSelectClause($1); }
-             | SELECT columns             { $$ = new DirectSelectClause($1); }
+selectclause : SELECT '*'                 { $$ = new AsteriskSelectClause(); }
+             | SELECT columns             { $$ = new SpecificSelectClause(); }
              ;
 
-fromclause : FROM IDENTIFIER
+fromclause : FROM IDENTIFIER               { $$ = new DirectFromClause($2);}
            | FROM subquery tablealias
            ;
 
@@ -38,7 +43,7 @@ asclause : AS columnalias
 columnalias : IDENTIFIER
       ;
 
-whereclause : WHERE searchCondition
+whereclause : WHERE searchCondition  { $$ = new WhereClauseToCriteria($2); }
 		|
 		;
 
@@ -76,7 +81,7 @@ predicate   : comparisonPredicate
             | existsPredicate
             ;
 
-comparisonPredicate    :   rowValueConstructor compOp rowValueConstructor
+comparisonPredicate    :   rowValueConstructor compOp rowValueConstructor   {$$ = new Comparison($1,$2,$3);}
                        ;
 
 betweenPredicate : rowValueConstructor BETWEEN rowValueConstructor AND rowValueConstructor
@@ -95,10 +100,29 @@ existsPredicate :  EXISTS tableSubquery
 tableSubquery    :   subquery
                  ;
 
-rowValueConstructor    : rowValueConstructorElement
+rowValueConstructor    : rowValueConstructorElement         {$$ = new RowValueConstructor($1);}
                        | '(' rowValueConstructorList ')'
                        | rowSubquery
                        ;
+
+rowValueConstructorList : rowValueConstructorElement
+                        | rowValueConstructorList ',' rowValueConstructorElement
+                        ;
+
+rowValueConstructorElement : string             {$$ = new RowValueConstructorElement($1);}
+                           | num                {$$ = new RowValueConstructorElement($1);}
+                           | field              {$$ = new RowValueConstructorElement($1);}
+                           | NULL
+                           ;
+
+compOp : '='              {$$ = new CompOp("EQ");}
+	   | '!' '='          {$$ = new CompOp("NE");}
+	   | '<' '>'          {$$ = new CompOp("NE");}
+	   | '<'              {$$ = new CompOp("LT");}
+	   | '<' '='          {$$ = new CompOp("LTE");}
+	   | '>'              {$$ = new CompOp("GT");}
+	   | '>' '='          {$$ = new CompOp("GTE");}
+	   ;
 
 rowSubquery : subquery
             ;
@@ -106,41 +130,28 @@ rowSubquery : subquery
 subquery : '(' sql ')'
          ;
 
-rowValueConstructorList : rowValueConstructorElement
-                        | rowValueConstructorList ',' rowValueConstructorElement
-                        ;
-
-rowValueConstructorElement : string
-                           | num
-                           | field
-                           | NULL
-                           ;
-
-compOp : '='
-	   | '!' '='
-	   | '<' '>'
-	   | '<'
-	   | '<' '='
-	   | '>'
-	   | '>' '='
-	   ;
-
-field : IDENTIFIER
+field : IDENTIFIER                             { $$ = new Field($1);}
 		;
 
 num   : NUMBER
 	  ;
 
-string : SINGLEQUOTE IDENTIFIER SINGLEQUOTE
-       | SINGLEQUOTE NUMBER SINGLEQUOTE
+string : SINGLEQUOTE IDENTIFIER SINGLEQUOTE    {$$ = new MongoString($2);}
+       | SINGLEQUOTE NUMBER SINGLEQUOTE        {$$ = new MongoString($2);}
        ;
 
 %%
 
-  private SelectLexer lexer;
+  private TokenLexer lexer;
+  private ResultSet rs;
 
-  SelectParser(SelectLexer lexer) { this.lexer = lexer; }
+
+  public SelectParser(TokenLexer lexer) { this.lexer = lexer; }
 
   private void yyerror(String msg) {
     Main.error(yyerrno<0 ? msg : yyerrmsgs[yyerrno]);
+  }
+
+  public ResultSet getResultSet(){
+    return rs;
   }

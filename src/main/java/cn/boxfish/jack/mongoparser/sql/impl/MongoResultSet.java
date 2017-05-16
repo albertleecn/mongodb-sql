@@ -1,4 +1,4 @@
-package cn.boxfish.jack.mongoparser;
+package cn.boxfish.jack.mongoparser.sql.impl;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by lvtu on 2017/5/13.
  */
-public class MongoResultSet implements ResultSet{
+public class MongoResultSet extends AbstractResultSet {
     @Override
     public boolean next() throws SQLException {
         return false;

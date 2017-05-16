@@ -27,7 +27,6 @@ Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
 fi
 
-#./jacc-bin/jacc -vf ./BNF/SelectSql.jacc
 ./jacc-bin/jacc -vf ./BNF/SelectSql.jacc -rn ./BNF/SelectSampleInput.txt
-#cp -f ./BNF/CommandParser.java ./BNF/CommandTokens.java ./src/main/java/cn/boxfish/jack/parser/
+cp -f ./BNF/SelectParser.java ./BNF/SelectTokens.java ./src/main/java/cn/boxfish/jack/mongoparser/
 
