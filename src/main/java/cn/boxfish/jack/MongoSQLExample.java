@@ -16,7 +16,7 @@ public class MongoSQLExample {
     public static void main(String[] args) {
         try {
             MongoStatement ms = new MongoStatement();
-            String sql = "SELECT * FROM QA WHERE value = 'hello' ";
+            String sql = "SELECT * FROM file_collection_map WHERE file_id = '1479369592543_42a034da-a8ea-4c45-96d4-66bb440f1a9f' AND state = '0' AND _id = '582d637877c82f9a8dd9b396'";
             ResultSet result = ms.executeQuery(sql);
             while(result.next()){
                 logger.debug("result set is : {},{},{},{}", result.getString(1));

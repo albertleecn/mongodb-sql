@@ -52,7 +52,7 @@ searchCondition : booleanTerm
                 ;
 
 booleanTerm : booleanFactor
-            | booleanTerm AND booleanFactor
+            | booleanTerm AND booleanFactor    { $$ = Comparison.and($1,$3);}
             ;
 
 booleanFactor : booleanTest

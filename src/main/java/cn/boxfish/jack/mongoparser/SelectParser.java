@@ -1,4 +1,4 @@
-// Output created by jacc on Tue May 16 14:31:55 CST 2017
+// Output created by jacc on Tue May 16 15:33:50 CST 2017
 
 package cn.boxfish.jack.mongoparser;
 
@@ -2318,7 +2318,8 @@ public class SelectParser implements SelectTokens {
     }
 
     private int yyr21() { // booleanTerm : booleanTerm AND booleanFactor
-        yysp -= 3;
+        { yyrv = Comparison.and(yysv[yysp-3],yysv[yysp-1]);}
+        yysv[yysp-=3] = yyrv;
         return yypbooleanTerm();
     }
 

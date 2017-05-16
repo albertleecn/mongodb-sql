@@ -38,7 +38,7 @@ class MongoSqlQuery implements SqlQuery {
             if (fromClause instanceof DirectFromClause) {
                 DirectFromClause from = (DirectFromClause) fromClause;
                 String collectionName = from.getTableName();
-                Criteria criteria = ((WhereClauseToCriteria) whereClause).getComparison().criteria();
+                Criteria criteria = ((WhereClauseToCriteria) whereClause).getComparison().criterias();
                 MongoOperations mongoOps = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("127.0.0.1", 27017), "mydb"));
                 List<Map> maps = mongoOps.find(new Query(criteria), Map.class, collectionName);
                 logger.debug("{}", maps);
