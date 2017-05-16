@@ -16,7 +16,7 @@ public class MongoSQLExample {
     public static void main(String[] args) {
         try {
             MongoStatement ms = new MongoStatement();
-            String sql = "SELECT * FROM QA";
+            String sql = "SELECT * FROM QA WHERE value = 'hello' ";
             ResultSet result = ms.executeQuery(sql);
             while(result.next()){
                 logger.debug("result set is : {},{},{},{}", result.getString(1));

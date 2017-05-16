@@ -35,11 +35,11 @@ class MongoSqlQuery implements SqlQuery {
 
     public ResultSet execute(){
         try {
-            MongoOperations mongoOps = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("localhost", 27017), "mydb"));
             if (fromClause instanceof DirectFromClause) {
                 DirectFromClause from = (DirectFromClause) fromClause;
                 String collectionName = from.getTableName();
                 Criteria criteria = ((WhereClauseToCriteria) whereClause).getComparison().criteria();
+                MongoOperations mongoOps = new MongoTemplate(new SimpleMongoDbFactory(new MongoClient("127.0.0.1", 27017), "mydb"));
                 List<Map> maps = mongoOps.find(new Query(criteria), Map.class, collectionName);
                 logger.debug("{}", maps);
                 return new MongoResultSet();

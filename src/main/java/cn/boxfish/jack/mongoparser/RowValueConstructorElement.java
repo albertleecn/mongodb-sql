@@ -8,7 +8,7 @@ public class RowValueConstructorElement {
     private Object elementValue;
 
     RowValueConstructorElement(Object elementValue){
-        elementValue = elementValue;
+        this.elementValue = elementValue;
     }
 
     public Object getElementValue() {

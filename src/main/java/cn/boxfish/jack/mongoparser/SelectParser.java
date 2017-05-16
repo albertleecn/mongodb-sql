@@ -1,4 +1,4 @@
-// Output created by jacc on Tue May 16 14:12:09 CST 2017
+// Output created by jacc on Tue May 16 14:31:55 CST 2017
 
 package cn.boxfish.jack.mongoparser;
 
@@ -2712,6 +2712,8 @@ public class SelectParser implements SelectTokens {
     }
 
     private int yyr17() { // whereclause : /* empty */
+        { yyrv = new EmptyWhereClause();}
+        yysv[yysp-=0] = yyrv;
         return 16;
     }
 

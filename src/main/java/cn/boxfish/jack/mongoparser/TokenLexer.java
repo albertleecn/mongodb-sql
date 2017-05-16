@@ -19,7 +19,7 @@ public class TokenLexer implements SelectTokens{
     private static final Pattern identifierPattern = Pattern.compile("^[a-zA-Z]+(\\w|-|)*");
     private static final Pattern numPattern = Pattern.compile("^\\d+");
 
-    private static final Pattern keywordsPattern = Pattern.compile("AND|AS|BETWEEN|EXISTS|FALSE|FROM|IN|IS|LIKE|NOT|NULL|OR|SELECT|'|TRUE|UNKNOWN|WHERE|!|\\(|\\)|\\*|,|<|=|>");
+    private static final Pattern keywordsPattern = Pattern.compile("^(AND|AS|BETWEEN|EXISTS|FALSE|FROM|IN|IS|LIKE|NOT|NULL|OR|SELECT|'|TRUE|UNKNOWN|WHERE|!|\\(|\\)|\\*|,|<|=|>)");
 
     public enum KeyWords{
         KEY_AND("AND", AND),

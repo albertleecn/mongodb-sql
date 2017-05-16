@@ -8,7 +8,7 @@ public class MongoString {
     private String stringValue;
 
     MongoString(Object stringValue){
-        stringValue = String.valueOf(stringValue);
+        this.stringValue = String.valueOf(stringValue);
     }
 
     public String getStringValue() {

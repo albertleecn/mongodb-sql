@@ -8,7 +8,7 @@ public class Field {
     private String fieldName;
 
     Field(Object fieldName){
-        fieldName = (String)fieldName;
+        this.fieldName = (String)fieldName;
     }
 
     public String getFieldName() {
